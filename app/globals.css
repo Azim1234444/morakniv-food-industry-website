@@ -1,26 +1,133 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   Morakniv Food Industry Malaysia — design tokens
+   Scandinavian industrial B2B: white grounds, charcoal type, one red accent.
+   The palette commits to a light corporate treatment; there is no dark mode.
+   ========================================================================== */
+
+@theme {
+  /* --- Brand -------------------------------------------------------------
+     Sampled directly from the supplied logo (Morakniv_logo_red_RGB.png).   */
+  --color-brand: #b72d25;
+  --color-brand-hover: #9c2620;
+  --color-brand-active: #841f1a;
+  --color-brand-tint: #fbf0ef;
+  --color-brand-edge: #eccecb;
+
+  /* --- Ink (charcoal, very slightly warm to sit with the red) ----------- */
+  --color-ink: #17181a;
+  --color-ink-strong: #0d0e0f;
+  --color-ink-muted: #4c5157;
+  --color-ink-subtle: #71767d;
+  --color-ink-inverse: #ffffff;
+
+  /* --- Surfaces --------------------------------------------------------- */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f7f7f6;
+  --color-surface-sunk: #efefed;
+  --color-surface-dark: #17181a;
+  --color-surface-darker: #0d0e0f;
+
+  /* --- Lines ------------------------------------------------------------ */
+  --color-line: #e4e4e2;
+  --color-line-strong: #cbcbc8;
+  --color-line-dark: #2c2e31;
+
+  /* --- Typography ------------------------------------------------------- */
+  --font-sans:
+    var(--font-brandon), "Helvetica Neue", Helvetica, Arial, system-ui,
+    sans-serif;
+
+  --text-display: 4.25rem;
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.025em;
+
+  /* --- Layout ----------------------------------------------------------- */
+  --spacing-gutter: 1.5rem;
+  --container-shell: 80rem;
+
+  /* --- Motion — restrained by design ------------------------------------ */
+  --ease-out-quiet: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, on-brand focus for keyboard users everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand);
+    color: var(--color-ink-inverse);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Uppercase micro-label used for eyebrows and table headers. */
+  .label-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* Skip link — visually hidden until focused. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+  }
+
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
