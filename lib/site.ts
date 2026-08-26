@@ -18,9 +18,36 @@
 
 export const PENDING_CLIENT = null;
 
-/** Public base URL. Set NEXT_PUBLIC_SITE_URL once the domain is confirmed. */
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+/**
+ * Public base URL, read from NEXT_PUBLIC_SITE_URL.
+ *
+ * Resolves to `undefined` until a real domain is configured — the state of a
+ * fresh Vercel project, where an unset variable arrives as `""` rather than as
+ * `undefined`, so `??` never fires and `new URL("")` throws. That threw during
+ * `next build`, taking down every route that reads this value.
+ *
+ * Localhost is deliberately not used as a fallback: a localhost base would put
+ * development URLs into production canonicals, Open Graph and sitemap output,
+ * which is worse than emitting nothing. Consumers treat the base as optional
+ * and drop the affected field when it is absent.
+ */
+function resolveSiteUrl(): URL | undefined {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return undefined;
+
+  try {
+    const parsed = new URL(raw);
+    /* Anything that is not web-addressable cannot act as a metadata base. */
+    return parsed.protocol === "http:" || parsed.protocol === "https:"
+      ? parsed
+      : undefined;
+  } catch {
+    /* Malformed value, e.g. "morakniv.my" with no scheme. Treat as unset. */
+    return undefined;
+  }
+}
+
+export const siteUrl = resolveSiteUrl();
 
 export const siteConfig = {
   name: "Morakniv Food Industry Malaysia",

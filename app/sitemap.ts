@@ -8,8 +8,21 @@ import { siteUrl } from "@/lib/site";
  * Only routes that actually exist are advertised. Content routes come from the
  * `built` flags in `lib/navigation.ts`; product routes are derived from the
  * product data itself, so the sitemap cannot drift from what is generated.
+ *
+ * Every `<loc>` in a sitemap must be an absolute URL, so the file can only be
+ * populated once NEXT_PUBLIC_SITE_URL names the real domain. Until then the
+ * sitemap builds empty rather than publishing URLs on a guessed origin — a
+ * preview or localhost origin here would invite the wrong host into the index.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (!siteUrl) {
+    console.warn(
+      "[sitemap] NEXT_PUBLIC_SITE_URL is unset or not a valid absolute URL — " +
+        "emitting an empty sitemap.",
+    );
+    return [];
+  }
+
   const lastModified = new Date();
 
   const contentRoutes = builtRoutes.map((route) => ({

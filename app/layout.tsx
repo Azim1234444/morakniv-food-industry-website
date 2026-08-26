@@ -8,7 +8,9 @@ import { siteConfig, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  /* `null` when NEXT_PUBLIC_SITE_URL is unset or invalid: Next.js then treats
+     the base as unconfigured instead of crashing on `new URL("")`. */
+  metadataBase: siteUrl ?? null,
   title: {
     default: `${siteConfig.name} — ${siteConfig.tagline}`,
     template: `%s — ${siteConfig.shortName}`,
