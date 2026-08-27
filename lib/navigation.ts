@@ -111,12 +111,13 @@ export const productCategories = categories.map((category) => ({
 /**
  * Compliance PDFs linked directly from the homepage.
  *
- * Only the two food-industry declarations belong here. Documents that are
- * presented as cards with a title, size and issue date — the B2B portal manual
- * and the press release — are described in `lib/documents.ts` and imported by
- * the one page each belongs to. The 2026 catalogue PDF is not published at all.
+ * One declaration remains publishable. The Frosts food-contact-material
+ * declaration was withdrawn at the client's request — see `lib/documents.ts`
+ * for why, and do not re-add it here. Documents that are presented as cards
+ * with a title, size and issue date — the B2B portal manual and the press
+ * release — are described in `lib/documents.ts` and imported by the one page
+ * each belongs to. The 2026 catalogue PDF is not published at all.
  */
 export const documents = {
-  docFrosts: "/documents/doc-food-contact-material-frosts.pdf",
   docFoodPp: "/documents/declaration-of-compliance-food-pp.pdf",
 } as const;

@@ -25,6 +25,14 @@
  * left on the site that made its scope unambiguous. `/quality-compliance`
  * tells readers it exists and to ask us for it; do not re-add the file.
  *
+ * The Frosts food-contact-material declaration has likewise been withdrawn, at
+ * the client's request: it describes the older Frosts/PUG context rather than
+ * the current range. Its PDF has been moved out of `public/` to
+ * `documents-unpublished/` so it stays with the project without being served.
+ * It is not to be replaced by another declaration, and no PUG or handle
+ * information is to be written from it — the client has not yet supplied the
+ * updated catalogue those changes depend on.
+ *
  * `scope` separates food-industry documents from corporate ones.
  */
 
@@ -68,17 +76,6 @@ export const pressRelease: ClientDocument = {
   scope: "corporate",
 };
 
-export const docFoodContact: ClientDocument = {
-  id: "doc-food-contact",
-  title: "Declaration of Compliance — Food contact material",
-  description:
-    "Covers FROSTS®/Morakniv food industry knives with stainless steel blades and handles in polypropylene, polyamides and thermoplastic elastomers.",
-  href: "/documents/doc-food-contact-material-frosts.pdf",
-  bytes: 71_968,
-  issued: "19 February 2025",
-  scope: "food-industry",
-};
-
 export const docHandleMaterials: ClientDocument = {
   id: "doc-handle-materials",
   title: "Declaration of Compliance — Knife handle materials",
@@ -90,8 +87,10 @@ export const docHandleMaterials: ClientDocument = {
   scope: "food-industry",
 };
 
-/** Food-industry compliance documents — safe for /quality-compliance. */
-export const complianceDocuments: ClientDocument[] = [
-  docFoodContact,
-  docHandleMaterials,
-];
+/**
+ * Food-industry compliance documents — safe for /quality-compliance.
+ *
+ * The array is the single source of truth for that page, so adding or removing
+ * an entry is all that publishing or withdrawing a declaration requires.
+ */
+export const complianceDocuments: ClientDocument[] = [docHandleMaterials];

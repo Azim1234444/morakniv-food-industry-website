@@ -303,16 +303,7 @@ export default function Home() {
               </dl>
 
               <p className="mt-5 text-sm text-ink-subtle">
-                Declarations available as PDF:{" "}
-                <a
-                  href={documents.docFrosts}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-ink underline underline-offset-4 transition-colors hover:text-brand"
-                >
-                  food contact material
-                </a>{" "}
-                and{" "}
+                Declaration available as PDF:{" "}
                 <a
                   href={documents.docFoodPp}
                   target="_blank"

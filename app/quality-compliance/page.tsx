@@ -58,7 +58,7 @@ export default function QualityCompliancePage() {
       <PageHeader
         eyebrow="Quality & Compliance"
         title="Documented at the source."
-        lede="Morakniv AB issues declarations of compliance for the materials in its knives that come into contact with food. The declarations below are published exactly as supplied by the manufacturer."
+        lede="Morakniv AB issues declarations of compliance for the materials in its knives that come into contact with food. What is published below is reproduced exactly as supplied by the manufacturer."
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Quality & Compliance" },
@@ -188,10 +188,16 @@ export default function QualityCompliancePage() {
         <Container>
           <SectionHeading
             eyebrow="Documents"
-            title="Declarations of compliance."
-            lede="Both documents cover the food industry range and are available as PDF."
+            title="Declaration of compliance."
+            lede="Covers the food industry range and is available as PDF."
           />
 
+          {/*
+            One card at present. The grid still splits into two columns from
+            `md` up so a second declaration slots in without a layout change,
+            but a lone card is capped rather than stretched to full width,
+            which would leave it looking like an empty banner.
+          */}
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {complianceDocuments.map((document) => (
               <DownloadCard key={document.id} document={document} />
@@ -199,14 +205,14 @@ export default function QualityCompliancePage() {
           </div>
 
           {/*
-            A third declaration supplied with the client materials covers the
+            A further declaration supplied with the client materials covers the
             Ashwood Outdoor collection. It is not part of the food industry
             range, and this page has no "other product lines" context to hold
             it, so it is not published here — it is available from us on
             request instead.
           */}
           <SourceNote variant="caution" className="mt-8">
-            A third declaration supplied with the client materials covers the
+            A further declaration supplied with the client materials covers the
             Ashwood Outdoor collection — outdoor knives with coated stainless
             blades. It is <strong className="font-medium text-ink">not</strong>{" "}
             part of the food industry range and is therefore not published on
