@@ -77,8 +77,19 @@ export default function OpengraphImage() {
           <div style={{ fontSize: 30, fontWeight: 700, color: "#b72d25" }}>
             MORAKNIV
           </div>
-          <div style={{ fontSize: 24, color: "#71767d" }}>
-            Food Industry Malaysia
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <div style={{ fontSize: 24, color: "#71767d" }}>
+              Food Industry Malaysia
+            </div>
+            <div style={{ fontSize: 18, color: "#9aa0a6", marginTop: 4 }}>
+              Distributed &amp; imported by Akmal Station
+            </div>
           </div>
         </div>
       </div>

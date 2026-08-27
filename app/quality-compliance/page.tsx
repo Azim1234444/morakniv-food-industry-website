@@ -198,24 +198,24 @@ export default function QualityCompliancePage() {
             ))}
           </div>
 
+          {/*
+            A third declaration supplied with the client materials covers the
+            Ashwood Outdoor collection. It is not part of the food industry
+            range, and this page has no "other product lines" context to hold
+            it, so it is not published here — it is available from us on
+            request instead.
+          */}
           <SourceNote variant="caution" className="mt-8">
             A third declaration supplied with the client materials covers the
             Ashwood Outdoor collection — outdoor knives with coated stainless
             blades. It is <strong className="font-medium text-ink">not</strong>{" "}
-            part of the food industry range and is therefore not listed on this
-            page. It is available, clearly labelled, in the{" "}
-            <a
-              href="/downloads"
-              className="font-medium text-ink underline underline-offset-4 hover:text-brand"
-            >
-              download centre
-            </a>
-            .
+            part of the food industry range and is therefore not published on
+            this site. Contact us if you need it.
           </SourceNote>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Button href="/downloads" className="w-full sm:w-auto">
-              All downloads
+            <Button href="/how-to-order" className="w-full sm:w-auto">
+              How to order
             </Button>
             <Button
               href="/technology/safety"

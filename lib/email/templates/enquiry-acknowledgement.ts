@@ -1,3 +1,4 @@
+import { distributor, manufacturer } from "@/lib/site";
 import type { EnquiryFields } from "@/lib/validation/enquiry";
 import { enquiryTypeLabel } from "@/lib/validation/enquiry";
 
@@ -22,6 +23,10 @@ import {
  * stock availability. None of those are established by any supplied client
  * material, and an automated email is the easiest place in a business to
  * accidentally create a commitment nobody agreed to.
+ *
+ * The footer identifies the sender as Akmal Station, distributor and importer
+ * of Morakniv Food Industry products in Malaysia. This email leaves the site
+ * and must not read as though Morakniv AB had sent it.
  */
 
 export type AcknowledgementEmail = {
@@ -69,7 +74,8 @@ ${rows}
 
   const footer = `
 <p style="margin:0 0 8px 0;">This is an automated acknowledgement of receipt. It is not a quotation, an order confirmation, or a confirmation of product availability.</p>
-<p style="margin:0;">Your details are used to respond to this enquiry. Morakniv is a registered trademark of Morakniv AB, Mora, Sweden.</p>`.trim();
+<p style="margin:0 0 8px 0;">Your details are used to respond to this enquiry.</p>
+<p style="margin:0;">Morakniv Food Industry products in Malaysia are distributed and imported by ${distributor.legalName}, registration no. ${distributor.registrationNumber}. Morakniv is a registered trademark of ${manufacturer.legalName}, Mora, Sweden.</p>`.trim();
 
   const html = layout({
     eyebrow: "Enquiry received",
@@ -103,7 +109,9 @@ ${rows}
     "This is an automated acknowledgement of receipt. It is not a quotation, an",
     "order confirmation, or a confirmation of product availability.",
     "Your details are used to respond to this enquiry.",
-    "Morakniv is a registered trademark of Morakniv AB, Mora, Sweden.",
+    `Morakniv Food Industry products in Malaysia are distributed and imported`,
+    `by ${distributor.legalName}, registration no. ${distributor.registrationNumber}.`,
+    `Morakniv is a registered trademark of ${manufacturer.legalName}, Mora, Sweden.`,
   ]
     .filter((line) => line !== null)
     .join("\n");

@@ -2,31 +2,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ContactForm } from "@/components/forms/ContactForm";
-import { DownloadCard } from "@/components/content/DownloadCard";
 import { PageHeader } from "@/components/content/PageHeader";
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { SourceNote } from "@/components/content/SourceNote";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
-import { catalogue } from "@/lib/documents";
 import { getAllProducts } from "@/lib/products";
 import type { Product } from "@/lib/products/types";
-import { manufacturer } from "@/lib/site";
+import { distributor, manufacturer } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   /* Deliberately makes no promise about response time — see the enquiry
      acknowledgement template for the same rule applied to email copy. */
   description:
-    "Send a product, quotation, distribution or technical enquiry to Morakniv Food Industry Malaysia. Include an article number from the 2026 catalogue and we will pick it up from there.",
+    "Send a product, quotation, distribution or technical enquiry to Akmal Station, distributor and importer of Morakniv Food Industry products in Malaysia. Include an article number from the 2026 catalogue and we will pick it up from there.",
   /* Canonical omits the query string, so /contact?product=11096 does not
      compete with /contact in search results. */
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact — Morakniv Food Industry",
     description:
-      "Send a product, quotation, distribution or technical enquiry to Morakniv Food Industry Malaysia.",
+      "Send a product, quotation, distribution or technical enquiry to Akmal Station, distributor and importer of Morakniv Food Industry products in Malaysia.",
     url: "/contact",
   },
 };
@@ -164,9 +162,14 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             {/* ---------------------------------------------------------
                 Contact information column
 
-                CONTENT RULE — no Malaysian address, telephone number,
-                registration number or opening hours appears here, because no
-                supplied client document contains one. See lib/site.ts.
+                CONTENT RULE — the Malaysian business comes first and the
+                manufacturer second, because visitors writing from this page
+                are writing to Akmal Station, not to Sweden. Every value
+                comes from lib/site.ts; the form itself posts to
+                ENQUIRY_TO_EMAIL, never to an address rendered here.
+
+                Telephone and business hours are still PENDING_CLIENT and are
+                therefore absent rather than invented.
                 --------------------------------------------------------- */}
             <aside className="lg:col-span-5">
               <div className="lg:sticky lg:top-28">
@@ -176,14 +179,52 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
                 <div className="mt-6 border-t border-line pt-6">
                   <p className="label-eyebrow mb-3 text-ink-subtle">
-                    Morakniv Food Industry Malaysia
+                    Malaysia — distributor &amp; importer
                   </p>
-                  <p className="text-sm leading-relaxed text-ink-muted">
-                    Our Malaysian office details — registered address, telephone
-                    number and business hours — are being finalised and will be
-                    published here once confirmed. In the meantime the enquiry
-                    form is the fastest way to reach us, and reaches the same
-                    people.
+
+                  <address className="text-base leading-relaxed text-ink not-italic">
+                    <strong className="font-medium">
+                      {distributor.legalName}
+                    </strong>
+                    <br />
+                    {distributor.address.map((line) => (
+                      <span key={line} className="text-ink-muted">
+                        {line}
+                        <br />
+                      </span>
+                    ))}
+                  </address>
+
+                  <dl className="mt-5 space-y-4 text-sm">
+                    <div>
+                      <dt className="text-ink-subtle">Enquiries</dt>
+                      <dd className="mt-1">
+                        <a
+                          href={`mailto:${distributor.enquiryEmail}`}
+                          className="text-ink underline underline-offset-4 transition-colors hover:text-brand"
+                        >
+                          {distributor.enquiryEmail}
+                        </a>
+                      </dd>
+                    </div>
+
+                    <div>
+                      <dt className="text-ink-subtle">Registration no.</dt>
+                      <dd className="mt-1 text-ink-muted">
+                        {distributor.registrationNumber}
+                      </dd>
+                    </div>
+                  </dl>
+
+                  <p className="mt-5 text-sm leading-relaxed text-ink-muted">
+                    {distributor.legalName} distributes and imports Morakniv
+                    Food Industry products in Malaysia. The enquiry form
+                    reaches the same team and is the fastest route.
+                  </p>
+
+                  <p className="mt-3 text-xs leading-relaxed text-ink-subtle">
+                    A telephone number and business hours will be published
+                    here once confirmed.
                   </p>
                 </div>
 
@@ -193,7 +234,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                   </p>
                   <p className="text-sm leading-relaxed text-ink-muted">
                     The knives are made by {manufacturer.legalName} in Mora,
-                    Sweden. For matters that concern the manufacturer directly:
+                    Sweden — a separate company from {distributor.legalName}.
+                    For matters that concern the manufacturer directly:
                   </p>
 
                   <dl className="mt-5 space-y-4 text-sm">
@@ -276,34 +318,32 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
       </Section>
 
       {/* ---------------------------------------------------------------
-          Catalogue — the thing most enquirers actually want next
+          Before you write — the article number is what saves the round trip
           --------------------------------------------------------------- */}
       <Section tone="alt" divided>
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-7">
               <SectionHeading
                 eyebrow="Before you write"
-                title="The full 2026 range, in one PDF."
-                lede="Article numbers, categories and product descriptions for the complete food industry programme. Quoting an article number in your enquiry saves a round of emails."
+                title="Find the article number first."
+                lede="Article numbers, categories and product descriptions for the complete food industry programme are published across the product pages. Quoting an article number in your enquiry saves a round of emails."
               />
+            </div>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="flex items-end lg:col-span-5">
+              <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button href="/products" className="w-full sm:w-auto">
-                  Browse the catalogue
+                  Browse the range
                 </Button>
                 <Button
-                  href="/downloads"
+                  href="/how-to-order"
                   variant="secondary"
                   className="w-full sm:w-auto"
                 >
-                  All downloads
+                  How to order
                 </Button>
               </div>
-            </div>
-
-            <div className="lg:col-span-7">
-              <DownloadCard document={catalogue} />
             </div>
           </div>
         </Container>

@@ -2,14 +2,33 @@
  * The client-supplied PDFs, as copied into `public/documents/`.
  *
  * `bytes` is the real on-disk size, so download links can state the weight
- * honestly — the catalogue is 21.9 MB and users on metered connections
- * deserve the warning.
+ * honestly — users on metered connections deserve the warning.
  *
- * `scope` separates food-industry documents from the one declaration that
- * covers a different product line entirely (see `ashWoodOutdoor`).
+ * There is no downloads or resources page. Every document below is published
+ * by exactly one page, the one whose subject it belongs to:
+ *
+ *   - `complianceDocuments` -> /quality-compliance
+ *   - `b2bManual`           -> /how-to-order
+ *   - `pressRelease`        -> /news/frosts-becomes-morakniv
+ *
+ * Nothing here may be collected into a general-purpose download index. If a
+ * document has no page that it belongs to, it does not get published.
+ *
+ * The 2026 product catalogue is deliberately not published. It is still cited
+ * in prose across the site as the source of article numbers and technical
+ * claims, but the file is not offered for download and must not be re-added
+ * without the client asking for it.
+ *
+ * The Ashwood Outdoor declaration that shipped with the client materials has
+ * been removed from `public/documents/` altogether. It covers a different
+ * product line, and once the downloads page was retired there was no context
+ * left on the site that made its scope unambiguous. `/quality-compliance`
+ * tells readers it exists and to ask us for it; do not re-add the file.
+ *
+ * `scope` separates food-industry documents from corporate ones.
  */
 
-export type DocumentScope = "food-industry" | "outdoor" | "corporate";
+export type DocumentScope = "food-industry" | "corporate";
 
 export type ClientDocument = {
   id: string;
@@ -28,16 +47,6 @@ export function formatBytes(bytes: number): string {
   }
   return `${Math.round(bytes / 1024)} KB`;
 }
-
-export const catalogue: ClientDocument = {
-  id: "catalogue-2026",
-  title: "Professional Food Industry Knives 2026",
-  description:
-    "The full 44-page product catalogue: technical background on steel, blades and handles, plus the complete assortment across all eight categories.",
-  href: "/documents/morakniv-food-industry-catalogue-2026.pdf",
-  bytes: 22_999_164,
-  scope: "food-industry",
-};
 
 export const b2bManual: ClientDocument = {
   id: "b2b-manual",
@@ -81,36 +90,8 @@ export const docHandleMaterials: ClientDocument = {
   scope: "food-industry",
 };
 
-/**
- * NOT a food-industry document.
- *
- * This declaration covers the Ashwood Outdoor collection — coated stainless
- * blades on outdoor knives — and cites FDA 21 CFR 170.39 alongside the EU
- * regulations. It is deliberately kept off `/quality-compliance`, which deals
- * only with the food-industry range, and is published on `/downloads` under an
- * explicit heading so nobody mistakes its scope.
- */
-export const ashWoodOutdoor: ClientDocument = {
-  id: "doc-ash-wood-outdoor",
-  title: "Declaration of Compliance — Ashwood Outdoor collection",
-  description:
-    "Covers outdoor knives with coated stainless steel blades. Supplied with the client materials but outside the food-industry range.",
-  href: "/documents/doc-food-contact-material-ash-wood.pdf",
-  bytes: 73_388,
-  issued: "19 February 2025",
-  scope: "outdoor",
-};
-
 /** Food-industry compliance documents — safe for /quality-compliance. */
 export const complianceDocuments: ClientDocument[] = [
   docFoodContact,
   docHandleMaterials,
-];
-
-export const allDocuments: ClientDocument[] = [
-  catalogue,
-  docFoodContact,
-  docHandleMaterials,
-  b2bManual,
-  pressRelease,
 ];

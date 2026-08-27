@@ -1,19 +1,25 @@
 /**
  * Site-wide constants.
  *
+ * TWO COMPANIES, DELIBERATELY KEPT APART
+ * `manufacturer` describes Morakniv AB in Sweden — the company that designs,
+ * makes and owns the Morakniv brand. `distributor` describes Akmal Station,
+ * the Malaysian business that distributes and imports those products here.
+ * They are separate legal entities. No copy on this site may merge them, and
+ * nothing may imply that Akmal Station is Morakniv AB.
+ *
+ * WORDING RULE
+ * Akmal Station is described as a "distributor and importer of Morakniv
+ * products in Malaysia" — never "official", "authorised", "exclusive" or
+ * "sole", none of which has been confirmed in writing. Do not add such wording
+ * without a separate written confirmation from the client.
+ *
  * SOURCING RULE
- * Every factual value below is taken from the client-supplied materials in
- * `public/documents/`. Nothing here is inferred or invented.
- *
- * The Malaysian operating entity is NOT described in any supplied document —
- * no legal name, registration number, address, phone or email appears in the
- * catalogue, the B2B portal manual, the press release or the three compliance
- * declarations. Those fields are therefore marked `PENDING_CLIENT` rather than
- * filled with plausible-looking placeholders. Grep for `PENDING_CLIENT` to find
- * everything still awaiting confirmation.
- *
- * No distributor, dealer or "authorised" status is asserted anywhere on this
- * site, because no supplied document establishes one.
+ * Morakniv AB values come from the client-supplied materials in
+ * `public/documents/` (catalogue p.43 and the compliance declarations).
+ * Akmal Station values come from the client's written business details.
+ * Anything still unconfirmed stays `PENDING_CLIENT` rather than being filled
+ * with plausible-looking placeholders — grep for it to find what is left.
  */
 
 export const PENDING_CLIENT = null;
@@ -55,14 +61,14 @@ export const siteConfig = {
   /* Catalogue cover title, p.1 */
   tagline: "Professional Food Industry Knives",
   description:
-    "Professional food industry knives made in Mora, Sweden since 1891. Boning, butcher, filleting, trimming and chef's knives in Swedish stainless steel, with food contact material declarations from Morakniv AB, for meat processors, slaughterhouses and professional kitchens.",
+    "Morakniv Food Industry knives for Malaysia — boning, butcher, filleting, trimming and chef's knives made in Mora, Sweden since 1891, with food contact material declarations from Morakniv AB. Distributed and imported in Malaysia by Akmal Station.",
   locale: "en_MY",
   lang: "en",
 } as const;
 
 /**
  * Manufacturer details — catalogue p.43 and the compliance declarations.
- * These describe Morakniv AB in Sweden, not the Malaysian operation.
+ * These describe Morakniv AB in Sweden, not the Malaysian business.
  */
 export const manufacturer = {
   legalName: "Morakniv AB",
@@ -76,18 +82,41 @@ export const manufacturer = {
 } as const;
 
 /**
- * Malaysian operating entity — awaiting client confirmation.
- * Do not populate these from assumption; see the sourcing rule above.
+ * Malaysian business — Akmal Station, the distributor and importer of
+ * Morakniv Food Industry products in Malaysia. Supplied by the client.
+ *
+ * `enquiryEmail` is the single published enquiry address for the business.
+ * It is display copy only: the contact form sends to `ENQUIRY_TO_EMAIL` from
+ * the environment (see `lib/email/config.ts`) and no address is hardcoded
+ * into that path.
  */
-export const localEntity = {
-  legalName: PENDING_CLIENT,
-  registrationNumber: PENDING_CLIENT,
-  address: PENDING_CLIENT,
+export const distributor = {
+  legalName: "Akmal Station",
+  registrationNumber: "201903353067 (NS0232489-U)",
+  /** One line per printed address line, in postal order. */
+  address: [
+    "Jalan Impiana",
+    "Impiana Residence",
+    "Bandar Baru Nilai",
+    "71800 Nilai",
+    "Negeri Sembilan",
+    "Malaysia",
+  ],
+  /** Condensed form for tight layouts such as the footer. */
+  addressCompact: [
+    "Jalan Impiana, Impiana Residence",
+    "Bandar Baru Nilai",
+    "71800 Nilai, Negeri Sembilan",
+    "Malaysia",
+  ],
+  enquiryEmail: "sales@moraknivfoodindustry.my",
+  /** Approved description of the relationship. Do not strengthen the wording. */
+  role: "Distributor and importer of Morakniv Food Industry products in Malaysia.",
+  /** Short attribution line used under the brand lockup. */
+  attribution: "Distributed & imported by Akmal Station",
+  /* Not supplied yet — see the sourcing rule above. */
   telephone: PENDING_CLIENT,
-  email: PENDING_CLIENT,
   businessHours: PENDING_CLIENT,
-  /** Relationship to Morakniv AB is undocumented — see project analysis §16.2 */
-  relationshipToManufacturer: PENDING_CLIENT,
 } as const;
 
 /** Heritage facts — press release and catalogue pp.6–7. */

@@ -132,10 +132,10 @@ export default function HowToOrderPage() {
             The portal described on this page is operated by Morakniv AB in
             Sweden and requires an existing trade account. Account eligibility,
             minimum order values, pricing, lead times and delivery terms are set
-            by the manufacturer and are not published on this site. Local
-            ordering arrangements for Malaysia are still being confirmed — if
-            you are unsure which route applies to you, contact us before
-            registering.
+            by the manufacturer and are not published on this site. In
+            Malaysia, Morakniv Food Industry products are distributed and
+            imported by Akmal Station — if you are unsure which route
+            applies to you, contact us before registering.
           </SourceNote>
         </Container>
       </Section>

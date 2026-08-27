@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { CTASection } from "@/components/content/CTASection";
 import { PageHeader } from "@/components/content/PageHeader";
 import { SourceNote } from "@/components/content/SourceNote";
 import { CatalogueBrowser } from "@/components/product/CatalogueBrowser";
+import { CategoryFigures } from "@/components/product/CategoryFigures";
+import { CategoryHero } from "@/components/product/CategoryHero";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { Button } from "@/components/ui/Button";
-import { catalogue } from "@/lib/documents";
+import { getCategoryVisuals } from "@/lib/images/catalogue";
 import {
   getCategories,
   getCategory,
@@ -54,6 +56,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const products = getProductsByCategory(category.slug as CategorySlug);
   const facets = getFacets(products);
   const counts = getCounts(products);
+  const visuals = getCategoryVisuals(category.slug);
 
   return (
     <>
@@ -82,7 +85,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </div>
       </PageHeader>
 
-      <Section>
+      {visuals && <CategoryHero visual={visuals.hero} />}
+
+      {/* The assortment comes before the catalogue figures: a buyer arriving
+          on this page is looking for an article number, not for reading. */}
+      <Section size="sm">
         <Container>
           <CatalogueBrowser
             products={products}
@@ -100,21 +107,23 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               will appear here once that data is loaded.
             </SourceNote>
           )}
-
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Button href="/contact" className="w-full sm:w-auto">
-              Request a quotation
-            </Button>
-            <Button
-              href={catalogue.href}
-              variant="secondary"
-              className="w-full sm:w-auto"
-            >
-              Open the 2026 catalogue
-            </Button>
-          </div>
         </Container>
       </Section>
+
+      {visuals && (
+        <CategoryFigures
+          figures={visuals.figures}
+          categoryName={category.name}
+        />
+      )}
+
+      <CTASection
+        eyebrow="Enquiries"
+        title="Send us the article numbers."
+        lede={`Quoting an article number from the ${category.name.toLowerCase()} list above saves a round of emails. Tell us the quantities you need and we will come back to you.`}
+        primary={{ label: "Request a quotation", href: "/contact" }}
+        secondary={{ label: "All product categories", href: "/products" }}
+      />
     </>
   );
 }

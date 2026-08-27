@@ -13,9 +13,16 @@ type ProductImageFrameProps = {
 
 /**
  * Renders real product imagery when it exists, and an honest placeholder when
- * it does not. No product photography has been supplied, and none may be
- * extracted or fabricated from the catalogue PDF — so the placeholder states
- * plainly that imagery is pending rather than showing a generic stock knife.
+ * it does not. No per-SKU product photography has been supplied, so the
+ * placeholder states plainly that imagery is pending rather than showing a
+ * generic stock knife.
+ *
+ * The catalogue visuals in `lib/images/catalogue.ts` do NOT qualify. They are
+ * section-level figures — one representative knife, a grid of blade or handle
+ * types — carrying no article number, so they cannot be mapped to a specific
+ * SKU and must stay on the category pages. Nothing may be routed from there
+ * into this component; the pending state is the correct answer until real
+ * per-article photography arrives.
  */
 export function ProductImageFrame({
   images,

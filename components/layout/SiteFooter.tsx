@@ -2,16 +2,8 @@ import Link from "next/link";
 
 import { Logo } from "@/components/brand/Logo";
 import { Container } from "@/components/layout/Container";
-import { documents, primaryNav, productCategories } from "@/lib/navigation";
-import { manufacturer, siteConfig } from "@/lib/site";
-
-const resourceLinks = [
-  { label: "Download centre", href: "/downloads", internal: true },
-  { label: "How to order", href: "/how-to-order", internal: true },
-  { label: "News", href: "/news", internal: true },
-  { label: "Product catalogue 2026 (PDF)", href: documents.catalogue },
-  { label: "B2B portal user manual (PDF)", href: documents.b2bManual },
-];
+import { primaryNav, productCategories } from "@/lib/navigation";
+import { distributor, manufacturer, siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -20,13 +12,56 @@ export function SiteFooter() {
     <footer className="border-t border-line bg-surface-alt">
       <Container>
         <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-          {/* Brand */}
+          {/*
+            Brand + Malaysian business.
+
+            The Morakniv mark is the brand; Akmal Station is named underneath
+            as the company that distributes and imports it here. The two are
+            kept visually separate — same column, different blocks — so the
+            footer never reads as though Akmal Station were Morakniv AB.
+          */}
           <div className="lg:col-span-4">
             <Logo height={24} />
+            <p className="label-eyebrow mt-2.5 text-ink-subtle">
+              Food Industry
+            </p>
+
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ink-muted">
               Professional knives for the food industry — made in Mora, Sweden
               since 1891.
             </p>
+
+            <div className="mt-8 border-t border-line pt-6">
+              <p className="text-sm font-medium text-ink">{siteConfig.name}</p>
+
+              <p className="mt-4 text-xs leading-relaxed tracking-wide text-ink-subtle uppercase">
+                Distributed &amp; imported by
+              </p>
+              <p className="mt-1 text-sm font-medium text-ink">
+                {distributor.legalName}
+              </p>
+              <p className="mt-1 text-sm text-ink-muted">
+                {distributor.registrationNumber}
+              </p>
+
+              <address className="mt-4 text-sm leading-relaxed text-ink-muted not-italic">
+                {distributor.addressCompact.map((line) => (
+                  <span key={line}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </address>
+
+              <p className="mt-4 text-sm">
+                <a
+                  href={`mailto:${distributor.enquiryEmail}`}
+                  className="text-ink-muted underline-offset-4 transition-colors hover:text-brand hover:underline"
+                >
+                  {distributor.enquiryEmail}
+                </a>
+              </p>
+            </div>
           </div>
 
           {/* Products */}
@@ -54,8 +89,13 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          {/* Company */}
-          <nav aria-label="Company" className="lg:col-span-2">
+          {/*
+            Company — the primary nav minus Home, so the footer can never
+            advertise a route the header does not. With Resources gone this
+            column carries the full set, and takes the width the old Resources
+            column used to occupy rather than leaving a hole in the grid.
+          */}
+          <nav aria-label="Company" className="lg:col-span-3">
             <h2 className="label-eyebrow text-ink-subtle">Company</h2>
             <ul className="mt-4 space-y-2.5">
               {primaryNav
@@ -73,36 +113,9 @@ export function SiteFooter() {
             </ul>
           </nav>
 
-          {/* Resources + manufacturer */}
-          <div className="lg:col-span-3">
-            <h2 className="label-eyebrow text-ink-subtle">Resources</h2>
-            <ul className="mt-4 space-y-2.5">
-              {resourceLinks.map((link) =>
-                link.internal ? (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-ink-muted underline-offset-4 transition-colors hover:text-brand hover:underline"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-ink-muted underline-offset-4 transition-colors hover:text-brand hover:underline"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ),
-              )}
-            </ul>
-
-            <h2 className="label-eyebrow mt-8 text-ink-subtle">Manufacturer</h2>
+          {/* Manufacturer */}
+          <div className="lg:col-span-2">
+            <h2 className="label-eyebrow text-ink-subtle">Manufacturer</h2>
             <address className="mt-4 text-sm not-italic leading-relaxed text-ink-muted">
               {manufacturer.legalName}
               <br />
@@ -118,17 +131,9 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Build note — Malaysian entity details are not in any supplied document. */}
-        <div className="border-t border-line py-5">
-          <p className="text-xs leading-relaxed text-ink-subtle">
-            Malaysian office address, registration and contact details are
-            pending client confirmation and have not been published.
-          </p>
-        </div>
-
         <div className="flex flex-col gap-3 border-t border-line py-6 text-xs text-ink-subtle sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
-            <p>© {year} {siteConfig.name}</p>
+            <p>© {year} {distributor.legalName}</p>
             <Link
               href="/legal/privacy-policy"
               className="underline-offset-4 transition-colors hover:text-brand hover:underline"

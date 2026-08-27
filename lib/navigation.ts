@@ -19,14 +19,23 @@ export type NavItem = {
   built: boolean;
 };
 
+/**
+ * Corporate/product-focused primary navigation.
+ *
+ * There is no "Resources" entry and no download centre. The client documents
+ * live with the content they belong to instead: compliance declarations on
+ * `/quality-compliance`, the B2B portal manual on `/how-to-order`, and the
+ * press release on the news item it accompanies. Adding a catch-all downloads
+ * route would undo that.
+ */
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/", built: true },
+  { label: "About", href: "/about", built: true },
   { label: "Products", href: "/products", built: true },
   { label: "Technology", href: "/technology", built: true },
-  { label: "About", href: "/about", built: true },
   { label: "Quality & Compliance", href: "/quality-compliance", built: true },
-  /* "Resources" is the nav label; /downloads is the canonical route. */
-  { label: "Resources", href: "/downloads", built: true },
+  { label: "How to Order", href: "/how-to-order", built: true },
+  { label: "News", href: "/news", built: true },
   { label: "Contact", href: "/contact", built: true },
 ];
 
@@ -40,8 +49,6 @@ export const secondaryRoutes: NavItem[] = [
     href: "/technology/safety",
     built: true,
   },
-  { label: "How to order", href: "/how-to-order", built: true },
-  { label: "News", href: "/news", built: true },
   {
     label: "Frosts becomes Morakniv",
     href: "/news/frosts-becomes-morakniv",
@@ -49,10 +56,18 @@ export const secondaryRoutes: NavItem[] = [
   },
 ];
 
-/** Routes that actually exist — the sitemap must only advertise these. */
-export const builtRoutes = [...primaryNav, ...secondaryRoutes]
-  .filter((item) => item.built)
-  .map((item) => item.href);
+/**
+ * Routes that actually exist — the sitemap must only advertise these.
+ * De-duplicated, so promoting a route into `primaryNav` can never emit the
+ * same `<loc>` twice.
+ */
+export const builtRoutes = [
+  ...new Set(
+    [...primaryNav, ...secondaryRoutes]
+      .filter((item) => item.built)
+      .map((item) => item.href),
+  ),
+];
 
 /** The four technology sub-pages, used by the hub and cross-links. */
 export const technologySections = [
@@ -93,11 +108,15 @@ export const productCategories = categories.map((category) => ({
   count: category.articleCount,
 }));
 
-/** Client documents copied into `public/documents/`. */
+/**
+ * Compliance PDFs linked directly from the homepage.
+ *
+ * Only the two food-industry declarations belong here. Documents that are
+ * presented as cards with a title, size and issue date — the B2B portal manual
+ * and the press release — are described in `lib/documents.ts` and imported by
+ * the one page each belongs to. The 2026 catalogue PDF is not published at all.
+ */
 export const documents = {
-  catalogue: "/documents/morakniv-food-industry-catalogue-2026.pdf",
-  b2bManual: "/documents/morakniv-b2b-portal-user-manual-en.pdf",
-  pressRelease: "/documents/press-release-frosts-becomes-morakniv-2025.pdf",
   docFrosts: "/documents/doc-food-contact-material-frosts.pdf",
   docFoodPp: "/documents/declaration-of-compliance-food-pp.pdf",
 } as const;

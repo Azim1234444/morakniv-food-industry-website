@@ -31,11 +31,8 @@ export default function NotFound() {
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Button href="/">Return home</Button>
-          <Button
-            href="/documents/morakniv-food-industry-catalogue-2026.pdf"
-            variant="secondary"
-          >
-            Open the 2026 catalogue
+          <Button href="/products" variant="secondary">
+            Browse the range
           </Button>
         </div>
 

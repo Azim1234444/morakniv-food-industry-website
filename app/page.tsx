@@ -10,6 +10,7 @@ import { Section } from "@/components/layout/Section";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { documents, productCategories } from "@/lib/navigation";
+import { distributor, manufacturer } from "@/lib/site";
 
 import factoryImage from "@/public/images/factory-aerial-mora.jpg";
 
@@ -32,10 +33,14 @@ import workerImage from "@/public/images/food-industry-worker.jpg";
  * Phase 0 home page.
  *
  * SOURCING RULE
- * Every claim traces to the supplied 2026 catalogue, the press release or the
- * three compliance declarations. Nothing describes the Malaysian operation, and
- * no distributor, dealer or "authorised" status is asserted, because no
- * supplied document establishes one.
+ * Product, manufacturing and compliance claims trace to the supplied 2026
+ * catalogue, the press release or the three compliance declarations.
+ *
+ * The Malaysian business — Akmal Station, distributor and importer of Morakniv
+ * Food Industry products here — is named from the client's own business
+ * details. It is presented as a separate company from Morakniv AB, and no
+ * "official", "authorised", "exclusive" or "sole" status is asserted, because
+ * none has been confirmed.
  *
  * Certification claims are attributed to the manufacturer rather than stated as
  * verified fact — see the Quality & Compliance section and `TrustBar`.
@@ -83,16 +88,19 @@ export default function Home() {
                 </Button>
               </div>
 
-              <p className="mt-7 text-sm text-ink-subtle">
-                Or{" "}
-                <a
-                  href={documents.catalogue}
-                  className="font-medium text-ink underline underline-offset-4 transition-colors hover:text-brand"
-                >
-                  open the 2026 catalogue (PDF)
-                </a>
-                .
-              </p>
+
+              {/* Who is who, said once and plainly: Morakniv is the brand and
+                  the maker; Akmal Station is the Malaysian business that
+                  brings it in. Kept subordinate to the headline on purpose. */}
+              <div className="mt-9 border-t border-line pt-6">
+                <p className="text-base font-medium text-ink">
+                  Morakniv Food Industry products for Malaysia
+                </p>
+                <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
+                  Distributed &amp; imported by {distributor.legalName} —
+                  manufactured by {manufacturer.legalName} in Mora, Sweden.
+                </p>
+              </div>
             </div>
 
             <figure className="relative m-0 lg:col-span-6 xl:col-span-5">
@@ -328,10 +336,7 @@ export default function Home() {
         title="Tell us what you cut, and we'll point you to the right knife."
         lede="Send us your requirements — volumes, tasks and handle preferences — and we will come back with a recommendation."
         primary={{ label: "Make an enquiry", href: "/contact" }}
-        secondary={{
-          label: "Download the catalogue",
-          href: documents.catalogue,
-        }}
+        secondary={{ label: "Browse the range", href: "/products" }}
       />
     </>
   );

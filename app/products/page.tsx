@@ -6,8 +6,6 @@ import { SourceNote } from "@/components/content/SourceNote";
 import { CatalogueBrowser } from "@/components/product/CatalogueBrowser";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { Button } from "@/components/ui/Button";
-import { catalogue } from "@/lib/documents";
 import {
   getAllProducts,
   getCategories,
@@ -41,11 +39,7 @@ export default function ProductsPage() {
         title="The professional food industry range."
         lede={`Eight categories covering the fabrication process, from primal breakdown through to final trimming, slicing and dicing. ${counts.total} article numbers are listed in the 2026 catalogue.`}
         crumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
-      >
-        <Button href={catalogue.href} variant="secondary">
-          Open the 2026 catalogue (PDF)
-        </Button>
-      </PageHeader>
+      />
 
       {/* ---------------- Categories ---------------- */}
       <Section>

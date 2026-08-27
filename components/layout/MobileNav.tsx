@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { primaryNav } from "@/lib/navigation";
+import { distributor, siteConfig } from "@/lib/site";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -51,8 +52,9 @@ export function MobileNav() {
     };
   }, [open]);
 
+  /* Must stay the exact inverse of `DesktopNav`'s `xl:block`. */
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         ref={triggerRef}
         type="button"
@@ -136,6 +138,17 @@ export function MobileNav() {
                 })}
               </ul>
             </nav>
+
+            {/* The header's brand lockup is hidden at this width, so the
+                same identification is repeated here rather than lost. */}
+            <div className="border-t border-line px-6 py-5">
+              <p className="label-eyebrow text-ink-subtle">
+                {siteConfig.name}
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                {distributor.attribution}.
+              </p>
+            </div>
           </div>
         </div>
       )}

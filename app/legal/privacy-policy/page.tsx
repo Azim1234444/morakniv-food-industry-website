@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/content/SectionHeading";
 import { SourceNote } from "@/components/content/SourceNote";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { manufacturer } from "@/lib/site";
+import { distributor, manufacturer } from "@/lib/site";
 
 /**
  * PLACEHOLDER — NOT APPROVED LEGAL COPY.
@@ -17,13 +17,13 @@ import { manufacturer } from "@/lib/site";
  * from the code in `lib/actions/enquiry.ts` and `lib/email/`, so it is true
  * today and can be checked.
  *
- * Everything a real privacy notice additionally requires — the identity of the
- * data controller, the retention period, the lawful basis, the complaints
- * route, and the PDPA 2010 rights wording itself — depends on the Malaysian
- * entity's registration details and on decisions only the client and their
- * legal adviser can make. Those are marked as outstanding rather than filled
- * in with plausible-sounding text, because an invented privacy notice is worse
- * than an obviously unfinished one.
+ * Everything a real privacy notice additionally requires — the retention
+ * period, the lawful basis, the complaints route, and the PDPA 2010 rights
+ * wording itself — rests on decisions only the client and their legal adviser
+ * can make. Those are marked as outstanding rather than filled in with
+ * plausible-sounding text, because an invented privacy notice is worse than an
+ * obviously unfinished one. The data controller is now identified: Akmal
+ * Station, the Malaysian business that operates this website.
  *
  * LAUNCH BLOCKER: this page must be replaced with reviewed copy before
  * production, and the `robots` directive below removed at the same time.
@@ -41,6 +41,11 @@ export const metadata: Metadata = {
 
 /* Mirrors the fields in lib/validation/enquiry.ts. Keep the two in step. */
 const collectedFields = [
+  {
+    term: "Who is responsible",
+    description:
+      `This website is operated by ${distributor.legalName} (registration no. ${distributor.registrationNumber}), ${distributor.address.join(", ")} — the distributor and importer of Morakniv Food Industry products in Malaysia. ${manufacturer.legalName} in Sweden is a separate company and does not operate this website.`,
+  },
   {
     term: "Details you enter",
     description:
@@ -64,11 +69,6 @@ const collectedFields = [
 ];
 
 const outstanding = [
-  {
-    term: "Data controller",
-    description:
-      "The registered name, company registration number and address of the Malaysian entity responsible for this website. Not yet confirmed by the client.",
-  },
   {
     term: "Retention period",
     description:

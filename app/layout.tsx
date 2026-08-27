@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { brandonGrotesque } from "@/lib/fonts";
-import { siteConfig, siteUrl } from "@/lib/site";
+import { distributor, siteConfig, siteUrl } from "@/lib/site";
 
 import "./globals.css";
 
@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     "meat processing knives",
     "Swedish stainless steel knives",
     "Morakniv",
+    "Morakniv Food Industry",
+    "Akmal Station",
+    "knife distributor Malaysia",
   ],
   alternates: {
     canonical: "/",
@@ -42,7 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    description: `Professional food industry knives made in Mora, Sweden since 1891. ${distributor.attribution} in Malaysia.`,
   },
   robots: {
     index: true,

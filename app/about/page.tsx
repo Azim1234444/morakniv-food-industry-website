@@ -9,19 +9,19 @@ import { SourceNote } from "@/components/content/SourceNote";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
-import { manufacturer } from "@/lib/site";
+import { distributor, manufacturer } from "@/lib/site";
 
 import factoryImage from "@/public/images/factory-aerial-mora.jpg";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Morakniv has made knives in Mora, Sweden since 1891. The history of Frosts, the merger with Morakniv AB, and manufacturing in Östnor.",
+    "Morakniv has made knives in Mora, Sweden since 1891 — the history of Frosts, the merger with Morakniv AB, and manufacturing in Östnor. In Malaysia, Morakniv Food Industry products are distributed and imported by Akmal Station.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About — Morakniv Food Industry",
     description:
-      "Knife-making in Mora, Sweden since 1891 — the history of Frosts and its consolidation under the Morakniv brand.",
+      "Knife-making in Mora, Sweden since 1891, and the Malaysian business behind this site: Akmal Station, distributor and importer of Morakniv Food Industry products.",
     url: "/about",
   },
 };
@@ -170,7 +170,7 @@ export default function AboutPage() {
       </Section>
 
       {/* ---------------------------------------------------------------
-          Manufacturer — clearly separated from the Malaysian operation
+          Manufacturer — Sweden, kept separate from the Malaysian business
           --------------------------------------------------------------- */}
       <Section tone="sunk" divided>
         <Container>
@@ -244,13 +244,87 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <SourceNote variant="caution" className="mt-6">
-                Details for the Malaysian business — company name, registration,
-                address and local contacts — are not published on this site yet
-                and are pending confirmation. Nothing on this page should be
-                read as describing a Malaysian entity or its relationship to
-                Morakniv AB.
+              <SourceNote className="mt-6">
+                Morakniv AB is a Swedish company and is not the operator of this
+                website. The Malaysian business is a separate company, set out
+                below.
               </SourceNote>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* ---------------------------------------------------------------
+          The Malaysian business — a separate company from Morakniv AB.
+
+          Wording is fixed: "distributor and importer". Do not upgrade it to
+          "official", "authorised", "exclusive" or "sole" without written
+          confirmation from the client. See lib/site.ts.
+          --------------------------------------------------------------- */}
+      <Section divided>
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-5">
+              <SectionHeading
+                eyebrow="In Malaysia"
+                title="Akmal Station."
+                lede="Distributor &amp; importer of Morakniv Food Industry products in Malaysia."
+              />
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="border border-line bg-surface p-6 md:p-8">
+                <h3 className="label-eyebrow text-ink-subtle">
+                  Company details
+                </h3>
+
+                <address className="mt-4 text-base leading-relaxed text-ink not-italic">
+                  <strong className="font-medium">
+                    {distributor.legalName}
+                  </strong>
+                  <br />
+                  {distributor.address.map((line) => (
+                    <span key={line}>
+                      {line}
+                      <br />
+                    </span>
+                  ))}
+                </address>
+
+                <dl className="mt-6 grid gap-4 border-t border-line pt-6 text-sm sm:grid-cols-2">
+                  <div>
+                    <dt className="text-ink-subtle">Registration no.</dt>
+                    <dd className="mt-1 text-ink-muted">
+                      {distributor.registrationNumber}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-ink-subtle">Enquiries</dt>
+                    <dd className="mt-1">
+                      <a
+                        href={`mailto:${distributor.enquiryEmail}`}
+                        className="text-ink-muted underline-offset-4 hover:text-brand hover:underline"
+                      >
+                        {distributor.enquiryEmail}
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+
+                <p className="mt-6 border-t border-line pt-6 text-sm leading-relaxed text-ink-muted">
+                  Akmal Station distributes and imports Morakniv Food Industry
+                  products in Malaysia, and operates this website. It is a
+                  separate company from {manufacturer.legalName}: the knives
+                  themselves are designed and manufactured in Mora, Sweden, and
+                  the Morakniv brand belongs to the manufacturer.
+                </p>
+              </div>
+
+              <div className="mt-9">
+                <Button href="/contact" variant="secondary">
+                  Contact the Malaysian office
+                </Button>
+              </div>
             </div>
           </div>
         </Container>
