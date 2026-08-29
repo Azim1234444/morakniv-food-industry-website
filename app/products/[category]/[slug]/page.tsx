@@ -1,19 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { PageHeader } from "@/components/content/PageHeader";
 import { SourceNote } from "@/components/content/SourceNote";
+import { ModelImageNote } from "@/components/product/ModelImageNote";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductImageFrame } from "@/components/product/ProductImageFrame";
 import { ProductSpecTable } from "@/components/product/ProductSpecTable";
+import {
+  ProductVariants,
+  ProductVariantsFallback,
+} from "@/components/product/ProductVariants";
 import { VerificationNotice } from "@/components/product/VerificationNotice";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { Button } from "@/components/ui/Button";
+import { getModelImage } from "@/lib/images/pug-models";
 import {
+  STIFFNESS_LABELS,
+  canPublishSpecs,
   getAllProducts,
   getCategory,
+  getFamilySiblings,
   getProductBySlug,
   getRelatedProducts,
 } from "@/lib/products";
@@ -22,6 +31,13 @@ type ProductPageProps = {
   params: Promise<{ category: string; slug: string }>;
 };
 
+/**
+ * One route per MODEL CODE — 45 of them, not one per article number.
+ *
+ * Article numbers are reached as `?article=14953` on their model's route. The
+ * query string is deliberately not part of the generated params: it selects a
+ * variant client-side and must never produce a second indexable page.
+ */
 export function generateStaticParams() {
   return getAllProducts().map((product) => ({
     category: product.category,
@@ -30,8 +46,9 @@ export function generateStaticParams() {
 }
 
 /**
- * Metadata is built from verified fields only. For an unverified record that
- * means article number, name and category — never a guessed specification.
+ * Metadata describes the MODEL. The canonical URL is the bare model route with
+ * no `?article=`, so the five colour variants of one knife stay a single page
+ * in the index instead of five near-duplicates.
  */
 export async function generateMetadata({
   params,
@@ -42,24 +59,30 @@ export async function generateMetadata({
   if (!product) return {};
 
   const category = getCategory(product.category);
-  const title = product.articleNo
-    ? `${product.name} — ${product.articleNo}`
-    : product.name;
+  const title = `${product.name} ${product.modelCode}`;
 
-  const description = product.articleNo
-    ? `${product.name}, article number ${product.articleNo}, from the Morakniv ${category?.name ?? ""} range. Made in Mora, Sweden.`
-    : `${product.name} from the Morakniv ${category?.name ?? ""} collection. Made in Mora, Sweden.`;
+  const flex = product.blade?.stiffness
+    ? `${STIFFNESS_LABELS[product.blade.stiffness]} blade. `
+    : "";
+  const colours =
+    product.variants.length === 1
+      ? "Supplied in black."
+      : `Available in ${product.variants.length} handle colours.`;
+
+  const description = `${product.name}, model ${product.modelCode}${
+    product.dimension ? `, ${product.dimension.printed}` : ""
+  }. ${flex}${colours} From the Morakniv ${category?.name ?? ""} range, made in Mora, Sweden.`;
+
+  const canonical = `/products/${product.category}/${product.slug}`;
 
   return {
     title,
     description,
-    alternates: {
-      canonical: `/products/${product.category}/${product.slug}`,
-    },
+    alternates: { canonical },
     openGraph: {
       title: `${title} — Morakniv Food Industry`,
       description,
-      url: `/products/${product.category}/${product.slug}`,
+      url: canonical,
     },
   };
 }
@@ -74,12 +97,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!category) notFound();
 
   const related = getRelatedProducts(product, 4);
-  const isVerified = product.dataStatus === "verified";
-
-  /* Article number is carried into the enquiry context (Phase 3 form). */
-  const enquiryHref = product.articleNo
-    ? `/contact?product=${encodeURIComponent(product.articleNo)}`
-    : `/contact?product=${encodeURIComponent(product.slug)}`;
+  const siblings = getFamilySiblings(product);
+  const showsSpecs = canPublishSpecs(product);
+  const modelImage = getModelImage(product.modelCode);
+  const hasModelImage = Boolean(modelImage) || product.images.length > 0;
 
   return (
     <>
@@ -90,22 +111,33 @@ export default async function ProductPage({ params }: ProductPageProps) {
           { label: "Home", href: "/" },
           { label: "Products", href: "/products" },
           { label: category.name, href: `/products/${category.slug}` },
-          { label: product.name },
+          { label: `${product.name} ${product.modelCode}` },
         ]}
       >
-        {product.articleNo ? (
+        <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
           <p className="flex items-baseline gap-3">
-            <span className="label-eyebrow text-ink-subtle">Article no.</span>
-            <span className="font-mono text-lg text-brand tabular-nums">
-              {product.articleNo}
+            <span className="label-eyebrow text-ink-subtle">Model</span>
+            <span className="font-mono text-lg text-brand">
+              {product.modelCode}
             </span>
           </p>
-        ) : (
-          <p className="text-sm text-ink-subtle">
-            The catalogue lists this model by name only; no article number is
-            printed.
-          </p>
-        )}
+          {product.dimension && (
+            <p className="flex items-baseline gap-3">
+              <span className="label-eyebrow text-ink-subtle">Dimension</span>
+              <span className="font-mono text-sm text-ink tabular-nums">
+                {product.dimension.printed}
+              </span>
+            </p>
+          )}
+          {product.blade?.stiffness && (
+            <p className="flex items-baseline gap-3">
+              <span className="label-eyebrow text-ink-subtle">Flex</span>
+              <span className="text-sm text-ink">
+                {STIFFNESS_LABELS[product.blade.stiffness]}
+              </span>
+            </p>
+          )}
+        </div>
       </PageHeader>
 
       <Section>
@@ -116,19 +148,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <div className="border border-line">
                 <ProductImageFrame
                   images={product.images}
-                  productName={product.name}
+                  productName={`${product.name} ${product.modelCode}`}
                   sizes="(min-width: 1024px) 40vw, 100vw"
                   size="detail"
                   priority
+                  modelImage={modelImage}
                 />
               </div>
 
-              {product.images.length === 0 && (
-                <p className="mt-3 text-xs leading-relaxed text-ink-subtle">
-                  Product photography has not been supplied for this article.
-                  Images are not reproduced from the catalogue PDF.
-                </p>
-              )}
+              {/* One photograph covers every colour of this model and always
+                  shows the black handle, so the caption tracks the selection. */}
+              <Suspense
+                fallback={
+                  <p className="mt-3 text-xs leading-relaxed text-ink-subtle">
+                    {hasModelImage
+                      ? "Representative image of this model, shown with the black handle."
+                      : "Photography for this model has not been supplied yet."}
+                  </p>
+                }
+              >
+                <ModelImageNote
+                  product={product}
+                  hasModelImage={hasModelImage}
+                />
+              </Suspense>
             </div>
 
             {/* Details */}
@@ -136,7 +179,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <h2 className="label-eyebrow text-ink-subtle">Specifications</h2>
 
               <div className="mt-5">
-                {isVerified ? (
+                {showsSpecs ? (
                   <ProductSpecTable product={product} />
                 ) : (
                   <VerificationNotice variant="detail" />
@@ -144,29 +187,46 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
 
               <div className="mt-8 border-t border-line pt-8">
-                <h2 className="text-lg font-medium text-ink">
-                  Enquire about this article
-                </h2>
-                <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted">
-                  Send us the article number with your volumes and intended
-                  tasks, and we will come back with a recommendation. Pricing,
-                  stock and lead times are not published on this site.
-                </p>
-
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                  <Button href={enquiryHref} className="w-full sm:w-auto">
-                    Enquire about{" "}
-                    {product.articleNo ? product.articleNo : product.name}
-                  </Button>
-                  <Button
-                    href={`/products/${category.slug}`}
-                    variant="secondary"
-                    className="w-full sm:w-auto"
-                  >
-                    All {category.name}
-                  </Button>
-                </div>
+                <Suspense
+                  fallback={<ProductVariantsFallback product={product} />}
+                >
+                  <ProductVariants product={product} />
+                </Suspense>
               </div>
+
+              {/* Sibling flex grades are LINKS to their own model pages, never
+                  options on this one: each has its own model code and its own
+                  blade etching. */}
+              {siblings.length > 0 && (
+                <div className="mt-8 border-t border-line pt-8">
+                  <h2 className="label-eyebrow text-ink-subtle">
+                    Also available in
+                  </h2>
+                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-muted">
+                    The same blade in another flex grade, printed on the same
+                    catalogue page.
+                  </p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {siblings.map((sibling) => (
+                      <li key={sibling.slug}>
+                        <Link
+                          href={`/products/${sibling.category}/${sibling.slug}`}
+                          className="inline-flex items-baseline gap-2 border border-line px-3 py-2 text-sm text-ink transition-colors hover:border-ink-subtle hover:bg-surface-alt"
+                        >
+                          <span className="font-mono text-xs text-brand">
+                            {sibling.modelCode}
+                          </span>
+                          {sibling.blade?.stiffness && (
+                            <span className="text-ink-muted">
+                              {STIFFNESS_LABELS[sibling.blade.stiffness]}
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               <div className="mt-8 border-t border-line pt-8">
                 <h2 className="label-eyebrow text-ink-subtle">Category</h2>
@@ -186,9 +246,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <SourceNote className="mt-12">
-            Article number and product name from{" "}
-            <em>Morakniv Professional Food Industry Knives 2026</em>,{" "}
-            {category.cataloguePages}.
+            Model code, product name, flex grade, handle, printed dimension and
+            the article number of each colour from{" "}
+            <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>, p.
+            {product.source?.page}.
           </SourceNote>
         </Container>
       </Section>

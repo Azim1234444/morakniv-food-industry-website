@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/content/SectionHeading";
 import { SourceNote } from "@/components/content/SourceNote";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { visualSource, type CatalogueVisual } from "@/lib/images/catalogue";
+import type { CatalogueVisual } from "@/lib/images/catalogue";
 
 type CategoryFiguresProps = {
   figures: CatalogueVisual[];
@@ -35,8 +35,8 @@ export function CategoryFigures({
           <div className="lg:col-span-4">
             <SectionHeading
               eyebrow="From the catalogue"
-              title="Blades, handles and features."
-              lede={`What the manufacturer publishes about the ${categoryName.toLowerCase()} range.`}
+              title="Blade profiles."
+              lede={`Blade geometry the ${categoryName.toLowerCase()} range is built on.`}
             />
           </div>
 
@@ -66,19 +66,15 @@ export function CategoryFigures({
                     <p className="mt-2.5 flex-1 text-sm leading-relaxed text-ink-muted">
                       {figure.caption}
                     </p>
-                    <p className="mt-3 text-xs text-ink-subtle tabular-nums">
-                      {visualSource(figure)}
-                    </p>
                   </figcaption>
                 </figure>
               ))}
             </div>
 
             <SourceNote className="mt-8">
-              These visuals are reproduced from the manufacturer&rsquo;s 2026
-              catalogue and describe the range as a whole. The catalogue does
-              not key them to article numbers, so none of them should be read
-              as a photograph of a specific article in the list above.
+              These figures describe blade geometry across the range as a whole.
+              They are not keyed to article numbers, so none of them should be
+              read as a photograph of a specific article in the list above.
             </SourceNote>
           </div>
         </div>

@@ -8,8 +8,12 @@ import { SourceNote } from "@/components/content/SourceNote";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
-import { getAllProducts } from "@/lib/products";
-import type { Product } from "@/lib/products/types";
+import {
+  COLOR_LABELS,
+  getProductByArticleNo,
+  getProductBySlug,
+} from "@/lib/products";
+import type { Product, ProductVariant } from "@/lib/products/types";
 import { distributor, manufacturer } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -17,7 +21,7 @@ export const metadata: Metadata = {
   /* Deliberately makes no promise about response time — see the enquiry
      acknowledgement template for the same rule applied to email copy. */
   description:
-    "Send a product, quotation, distribution or technical enquiry to Akmal Station, distributor and importer of Morakniv Food Industry products in Malaysia. Include an article number from the 2026 catalogue and we will pick it up from there.",
+    "Send a product, quotation, distribution or technical enquiry to Akmal Station, distributor and importer of Morakniv Food Industry products in Malaysia. Include an article number and we will pick it up from there.",
   /* Canonical omits the query string, so /contact?product=11096 does not
      compete with /contact in search results. */
   alternates: { canonical: "/contact" },
@@ -52,21 +56,29 @@ function sanitiseParam(value: string | string[] | undefined): string {
     .slice(0, 60);
 }
 
+type Matched = { product: Product; variant?: ProductVariant };
+
 /**
  * Best-effort catalogue lookup, used for display context only.
  *
- * A match tells the visitor "yes, we recognise that reference" and links them
- * back to the product page. A miss changes nothing: the value still prefills
- * the form, because a customer quoting a number from a printed catalogue or an
- * old order should not be told they are wrong by a website that is still
- * verifying its own product data.
+ * Accepts an article number — which is what a model page's enquiry button
+ * sends — or a model slug, and resolves either to the model that carries it.
+ * An article number also yields its variant, so the panel can name the colour
+ * and link back with that colour already selected.
+ *
+ * A match tells the visitor "yes, we recognise that reference". A miss changes
+ * nothing: the value still prefills the form, because a customer quoting a
+ * number from a printed catalogue or an old order should not be told they are
+ * wrong by a website that is still verifying its own product data.
  */
-function findByReference(reference: string): Product | undefined {
+function findByReference(reference: string): Matched | undefined {
   if (!reference) return undefined;
 
-  return getAllProducts().find(
-    (product) => product.articleNo === reference || product.slug === reference,
-  );
+  const byArticle = getProductByArticleNo(reference);
+  if (byArticle) return byArticle;
+
+  const bySlug = getProductBySlug(reference.toLowerCase());
+  return bySlug ? { product: bySlug } : undefined;
 }
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
@@ -75,12 +87,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   const matched = findByReference(reference);
 
   /*
-   * Prefill priority: the matched article number, then the product name for
-   * the Classic 1891 models that the catalogue lists without one, then
-   * whatever the visitor arrived with.
+   * Prefill priority: the matched article number, then the model code when the
+   * visitor arrived on a model slug rather than an article, then whatever they
+   * arrived with.
    */
   const prefill = matched
-    ? (matched.articleNo ?? matched.name)
+    ? (matched.variant?.articleNo ?? matched.product.modelCode)
     : reference;
 
   /*
@@ -119,15 +131,25 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                   {matched ? (
                     <>
                       <p className="text-lg leading-snug font-medium text-ink">
-                        {matched.name}
+                        {matched.product.name}{" "}
+                        <span className="font-mono text-base text-ink-muted">
+                          {matched.product.modelCode}
+                        </span>
                       </p>
                       <p className="mt-1.5 text-sm text-ink-muted">
-                        {matched.articleNo
-                          ? `Article ${matched.articleNo}`
-                          : "No article number listed in the catalogue"}
+                        {matched.variant
+                          ? `Article ${matched.variant.articleNo} — ${COLOR_LABELS[matched.variant.color]}`
+                          : `Model ${matched.product.modelCode}`}
                       </p>
+                      {/* Links back with the colour already selected, so the
+                          visitor returns to exactly the article they enquired
+                          about rather than the model's default. */}
                       <Link
-                        href={`/products/${matched.category}/${matched.slug}`}
+                        href={
+                          matched.variant
+                            ? `/products/${matched.product.category}/${matched.product.slug}?article=${matched.variant.articleNo}`
+                            : `/products/${matched.product.category}/${matched.product.slug}`
+                        }
                         className="mt-4 inline-block text-sm font-medium text-ink underline underline-offset-4 transition-colors hover:text-brand"
                       >
                         View the product page
@@ -139,9 +161,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                         {reference}
                       </p>
                       <p className="mt-1.5 text-sm text-ink-muted">
-                        We could not match this reference to an entry in the
-                        2026 catalogue, but it has been added to your enquiry so
-                        we can look into it.
+                        We could not match this reference to a current article
+                        number, but it has been added to your enquiry so we can
+                        look into it.
                       </p>
                     </>
                   )}
@@ -228,6 +250,33 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                   </p>
                 </div>
 
+                {/*
+                  Secondary route, kept in the Malaysian half of the column
+                  because that is whose hub it is. The form above remains the
+                  primary path and is unchanged — this is an alternative for
+                  people who would rather reach the distributor through its own
+                  page. What that page offers is not restated here.
+                */}
+                <div className="mt-8 border-t border-line pt-6">
+                  <p className="label-eyebrow mb-3 text-ink-subtle">
+                    Other contact options
+                  </p>
+                  <p className="text-sm leading-relaxed text-ink-muted">
+                    {distributor.legalName} keeps its contact and ordering
+                    routes on its own Linktree page.
+                  </p>
+                  <div className="mt-5">
+                    <Button
+                      href={distributor.linktree}
+                      variant="secondary"
+                      size="sm"
+                      className="w-full"
+                    >
+                      Contact us via Linktree
+                    </Button>
+                  </div>
+                </div>
+
                 <div className="mt-8 border-t border-line pt-6">
                   <p className="label-eyebrow mb-3 text-ink-subtle">
                     Manufacturer — Sweden
@@ -284,30 +333,29 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                   </SourceNote>
                 </div>
 
+                {/*
+                  The manufacturer's own trade channels are deliberately not
+                  offered here. This site is Akmal Station's, and ordering in
+                  Malaysia runs through Akmal Station — sending a buyer to
+                  Sweden to order sends them away from the business whose site
+                  this is. Do not re-add an ordering link to the manufacturer.
+                */}
                 <div className="mt-8 border-t border-line pt-6">
                   <p className="label-eyebrow mb-3 text-ink-subtle">
-                    Existing trade accounts
+                    How ordering works
                   </p>
                   <p className="text-sm leading-relaxed text-ink-muted">
-                    If you already order through the Morakniv B2B portal, place
-                    and track orders there rather than through this form.
+                    Browse the range, note the article number, and send it to
+                    us with the quantity you need.
                   </p>
-                  <div className="mt-5 flex flex-col gap-3">
+                  <div className="mt-5">
                     <Button
-                      href={manufacturer.b2bPortal}
+                      href="/how-to-order"
                       variant="secondary"
                       size="sm"
                       className="w-full"
                     >
-                      Open the B2B portal
-                    </Button>
-                    <Button
-                      href="/how-to-order"
-                      variant="ghost"
-                      size="sm"
-                      className="w-full"
-                    >
-                      How ordering works
+                      How to order
                     </Button>
                   </div>
                 </div>

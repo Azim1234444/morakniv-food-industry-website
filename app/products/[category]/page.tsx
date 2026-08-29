@@ -71,8 +71,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         ]}
       >
         <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+          {/* Models lead: this page lists one card per model. The article
+              total follows, explicitly labelled so the two are never
+              confused. */}
           <p className="flex items-baseline gap-2">
             <span className="text-2xl font-medium text-brand tabular-nums">
+              {category.modelCount}
+            </span>
+            <span className="text-sm text-ink-muted">
+              {category.modelCount === 1 ? "model" : "models"}
+            </span>
+          </p>
+          <p className="flex items-baseline gap-2">
+            <span className="text-sm text-ink-muted tabular-nums">
               {category.articleCount}
             </span>
             <span className="text-sm text-ink-muted">
@@ -85,7 +96,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </div>
       </PageHeader>
 
-      {visuals && <CategoryHero visual={visuals.hero} />}
+      {visuals?.hero && <CategoryHero visual={visuals.hero} />}
 
       {/* The assortment comes before the catalogue figures: a buyer arriving
           on this page is looking for an article number, not for reading. */}
@@ -97,25 +108,24 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             searchLabel={`Search ${category.name}`}
           />
 
-          {counts.verified === 0 && (
-            <SourceNote variant="caution" className="mt-10">
-              None of the{" "}
-              <span className="tabular-nums">{counts.total}</span> articles in
-              this category currently publish specifications. Handle, colour,
-              blade length, stiffness and NSF status are being verified against
-              the manufacturer&rsquo;s product data first. Attribute filters
-              will appear here once that data is loaded.
+          {counts.total > 0 && (
+            <SourceNote className="mt-10">
+              Model codes, flex grades, handle, printed dimensions and the
+              article number of each colour are taken from{" "}
+              <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>,{" "}
+              {category.cataloguePages}.
             </SourceNote>
           )}
         </Container>
       </Section>
 
-      {visuals && (
+      {visuals && visuals.figures.length > 0 && (
         <CategoryFigures
           figures={visuals.figures}
           categoryName={category.name}
         />
       )}
+
 
       <CTASection
         eyebrow="Enquiries"

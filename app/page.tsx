@@ -33,8 +33,12 @@ import workerImage from "@/public/images/food-industry-worker.jpg";
  * Phase 0 home page.
  *
  * SOURCING RULE
- * Product, manufacturing and compliance claims trace to the supplied 2026
- * catalogue, the press release or the three compliance declarations.
+ * Product claims trace to the PUG catalogue, which is the current range and
+ * the source of truth for it. Company, manufacturing and compliance claims
+ * trace to the supplied 2026 catalogue, the press release or the three
+ * compliance declarations; those citations are left as they are because the
+ * PUG catalogue does not carry the same material, and re-attributing them to
+ * it would invent provenance.
  *
  * The Malaysian business — Akmal Station, distributor and importer of Morakniv
  * Food Industry products here — is named from the client's own business
@@ -188,10 +192,11 @@ export default function Home() {
                     gain new ideas that we transform into market-leading knives.
                   </p>
                   <p className="mt-4">
-                    Handle families including Ergo-Grip, G-Grip, Uni-Grip and
-                    Pro-Grip are each developed for a specific area of use, with
-                    materials and colours to suit the varied demands of the
-                    workplace.
+                    That work produced the PUG handle &mdash; Performance
+                    Universal Grip &mdash; which now carries the whole range. A
+                    rounded pommel, integrated finger guard and defined thumb
+                    support give control through repetitive work, and five
+                    handle colours support colour-coding on the line.
                   </p>
                 </>
               }
@@ -213,28 +218,28 @@ export default function Home() {
         <Container>
           <SectionHeading
             eyebrow="The range"
-            title="Eight categories, covering the fabrication process."
+            title="Six categories, covering the fabrication process."
             lede="From primal breakdown through to final trimming, slicing and dicing."
           />
 
-          <div className="mt-12 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
             {productCategories.map((category) => (
               <CategoryCard
                 key={category.href}
                 label={category.label}
                 href={category.href}
-                count={category.count}
+                modelCount={category.modelCount}
+                articleCount={category.articleCount}
               />
             ))}
           </div>
 
           <div className="mt-8 border-t border-line pt-5">
             <p className="max-w-3xl text-sm leading-relaxed text-ink-subtle">
-              Article-number counts are taken from the 2026 catalogue. Detailed
-              specifications for each knife — handle type, colour, blade length
-              and flex grade — are currently being verified against the
-              manufacturer&rsquo;s product data and will be published once that
-              check is complete.
+              Each model carries its own flex grade and printed dimension, and
+              is offered in one to five handle colours — each colour with its
+              own article number. Lists can be filtered by flex grade and by
+              colour.
             </p>
           </div>
         </Container>
@@ -295,9 +300,8 @@ export default function Home() {
                     NSF certification
                   </dt>
                   <dd className="mt-2.5 text-sm leading-relaxed text-ink-muted">
-                    Stated by Morakniv AB in the 2026 catalogue for its food
-                    industry knives. Certification documents are not published
-                    here.
+                    Certification documents are not published here. Ask us and we
+                    will supply what applies to the articles you need.
                   </dd>
                 </div>
               </dl>
@@ -322,12 +326,24 @@ export default function Home() {
       {/* ===============================================================
           Enquiry CTA
           =============================================================== */}
+      {/*
+        The enquiry form stays the primary route: it is the only one that
+        carries an article number and a written specification with it, which is
+        what a knife recommendation actually needs. The Linktree sits beside it
+        as the distributor's own contact and ordering hub for anyone who would
+        rather reach Akmal Station directly — named, not described, because its
+        contents are the client's to publish.
+      */}
       <CTASection
         eyebrow="Get in touch"
         title="Tell us what you cut, and we'll point you to the right knife."
         lede="Send us your requirements — volumes, tasks and handle preferences — and we will come back with a recommendation."
         primary={{ label: "Make an enquiry", href: "/contact" }}
-        secondary={{ label: "Browse the range", href: "/products" }}
+        secondary={{
+          label: "Order / Enquire via Linktree",
+          href: distributor.linktree,
+        }}
+        tertiary={{ label: "Browse the range", href: "/products" }}
       />
     </>
   );

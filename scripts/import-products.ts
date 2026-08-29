@@ -4,11 +4,11 @@
  * ---------------------------------------------------------------------------
  * WHY THIS EXISTS
  * ---------------------------------------------------------------------------
- * Every product record in `lib/products/data/` currently carries only an
- * article number and a name, marked `needs-verification`. The 2026 PDF
- * catalogue lays its assortment tables out visually and the attribute columns
- * desynchronise on pp.27, 29, 31, 33, 35 and 38, so specifications cannot be
- * read back from it safely.
+ * Every product record in `lib/products/data/` is `catalogue-verified`: read
+ * from the supplied PUG catalogue, which is safe to publish but is not the
+ * manufacturer's own product data. Colour availability in particular is only
+ * as complete as the catalogue's swatch columns — a model printed in black
+ * alone may or may not be offered in other colours.
  *
  * The authoritative source is the Gung B2B portal's bulk export, documented in
  * `Morakniv_User Manual_B2B portal Gung_ENG.pdf`:
@@ -38,8 +38,12 @@
  *  6. `npx tsx scripts/import-products.ts --write`
  *
  * The importer matches on ARTICLE NUMBER only. Names are never used for
- * matching — the catalogue renders the same article number with two different
- * names in at least one case (129-3795).
+ * matching: they are model-level in this data model, so several articles share
+ * one, and a name is not a key.
+ *
+ * A row of the export therefore identifies a VARIANT. Most of its columns
+ * describe that variant's model, so `mapRow` returns the two patches
+ * separately — see `ImportResult`.
  */
 
 import type {
@@ -47,6 +51,7 @@ import type {
   HandleColor,
   HandleType,
   Product,
+  ProductVariant,
 } from "@/lib/products/types";
 
 /* -------------------------------------------------------------------------
@@ -67,32 +72,18 @@ const COLUMN_MAP = {
    ------------------------------------------------------------------------- */
 
 const HANDLE_LOOKUP: Record<string, HandleType> = {
-  "ergo-grip": "ergo-grip",
-  ergogrip: "ergo-grip",
-  "g-grip": "g-grip",
-  "uni-grip": "uni-grip",
-  unigrip: "uni-grip",
-  "pro-grip": "pro-grip",
-  progrip: "pro-grip",
-  "p-grip": "p-grip",
-  "ps-grip": "ps-grip",
-  "pm-grip": "pm-grip",
-  "pq-grip": "pq-grip",
-  "rmh-grip": "rmh-grip",
-  "am-grip": "am-grip",
-  "1025-grip": "1025-grip",
-  "511-grip": "511-grip",
-  "g143-grip": "g143-grip",
-  sheath: "sheath",
+  pug: "pug",
+  "pug-grip": "pug",
+  "performance universal grip": "pug",
 };
 
 const COLOR_LOOKUP: Record<string, HandleColor> = {
   black: "black",
-  blue: "blue",
-  green: "green",
   red: "red",
+  green: "green",
   yellow: "yellow",
-  white: "white",
+  "metal-detectable-blue": "metal-detectable-blue",
+  "metal detectable blue": "metal-detectable-blue",
 };
 
 const STIFFNESS_LOOKUP: Record<string, BladeStiffness> = {
@@ -104,8 +95,6 @@ const STIFFNESS_LOOKUP: Record<string, BladeStiffness> = {
   "extra-flex": "extra-flex",
   "extra flex": "extra-flex",
   extraflex: "extra-flex",
-  "ball point": "ball-point",
-  "belly opener": "belly-opener",
 };
 
 function normaliseKey(value: string): string {
@@ -169,7 +158,10 @@ export type SourceRow = Record<string, unknown>;
 
 export type ImportResult = {
   articleNo: string;
-  patch: Partial<Product>;
+  /** Model-level fields — applied to the model this article belongs to. */
+  model: Partial<Product>;
+  /** Article-level fields — applied to this article's variant alone. */
+  variant: Partial<ProductVariant>;
   /** Fields present in the export and successfully parsed. */
   resolved: string[];
   /** Fields present but not recognised — these need a lookup-table entry. */
@@ -202,9 +194,18 @@ export function mapRow(row: SourceRow): ImportResult | null {
   const nsfApproved = parseNsf(row[COLUMN_MAP.nsf]);
   if (nsfApproved !== undefined) resolved.push("nsf");
 
-  const patch: Partial<Product> = {
+  /*
+   * The patch is split the way the data model is split. A row of the export
+   * describes ONE ARTICLE NUMBER, but most of its columns describe the model
+   * that article belongs to — handle, blade, NSF status. Only colour belongs
+   * to the article itself.
+   *
+   * Applying `model` therefore means "update the model this article belongs
+   * to", and several rows of the export will patch the same model with the
+   * same values. `variant` applies to that one article alone.
+   */
+  const model: Partial<Product> = {
     handle,
-    color,
     nsfApproved,
     blade: { lengthInch, lengthMm, stiffness },
     /*
@@ -218,7 +219,9 @@ export function mapRow(row: SourceRow): ImportResult | null {
         : "needs-verification",
   };
 
-  return { articleNo, patch, resolved, unresolved };
+  const variant: Partial<ProductVariant> = { color };
+
+  return { articleNo, model, variant, resolved, unresolved };
 }
 
 /* -------------------------------------------------------------------------
@@ -257,7 +260,7 @@ async function main() {
   const results = rows.map(mapRow).filter((r): r is ImportResult => r !== null);
 
   const verified = results.filter(
-    (r) => r.patch.dataStatus === "verified",
+    (r) => r.model.dataStatus === "verified",
   ).length;
 
   console.log(`  rows read     : ${rows.length}`);

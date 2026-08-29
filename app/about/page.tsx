@@ -12,6 +12,19 @@ import { Button } from "@/components/ui/Button";
 import { distributor, manufacturer } from "@/lib/site";
 
 import factoryImage from "@/public/images/factory-aerial-mora.jpg";
+/*
+ * IMAGE RIGHTS — see the note in app/page.tsx, which applies here too.
+ * `food-industry-worker-mono.webp` shows an identifiable person. It came from
+ * the client's CorporateWebsite delivery (source `DSC_5942 SV.jpg.jpeg`) with
+ * no model release, licence or usage grant attached. Commercial use on a
+ * public website must be confirmed in writing with the copyright holder — and
+ * with the subject — before this site goes live. The surrounding section is
+ * written to stand on its own copy if the image has to be pulled.
+ *
+ * The caption deliberately describes the WORK, not the person: no name, no
+ * role, no employer is claimed, because none was supplied.
+ */
+import workerMonoImage from "@/public/images/food-industry-worker-mono.webp";
 
 export const metadata: Metadata = {
   title: "About",
@@ -81,6 +94,25 @@ export default function AboutPage() {
                 eyebrow="Made in Mora, Sweden"
                 title="A tradition passed between generations."
               />
+
+              {/* Lazy by default — this sits below the fold at 390px. */}
+              <figure className="mt-10 m-0">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-surface-sunk">
+                  <Image
+                    src={workerMonoImage}
+                    alt="Food industry worker in a manufacturing environment"
+                    fill
+                    placeholder="blur"
+                    quality={85}
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover"
+                    style={{ objectPosition: "50% 32%" }}
+                  />
+                </div>
+                <figcaption className="mt-4 text-sm leading-relaxed text-ink-subtle">
+                  Knife-making in Mora, Sweden.
+                </figcaption>
+              </figure>
             </div>
 
             <div className="lg:col-span-7">

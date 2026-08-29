@@ -8,7 +8,6 @@
  * by exactly one page, the one whose subject it belongs to:
  *
  *   - `complianceDocuments` -> /quality-compliance
- *   - `b2bManual`           -> /how-to-order
  *   - `pressRelease`        -> /news/frosts-becomes-morakniv
  *
  * Nothing here may be collected into a general-purpose download index. If a
@@ -24,6 +23,14 @@
  * product line, and once the downloads page was retired there was no context
  * left on the site that made its scope unambiguous. `/quality-compliance`
  * tells readers it exists and to ask us for it; do not re-add the file.
+ *
+ * The manufacturer's ordering-portal user manual has been deleted, at the
+ * client's request. Ordering in Malaysia runs through Akmal Station, so
+ * /how-to-order no longer describes a manufacturer ordering workflow and the
+ * manual had no page left to belong to. Unlike the Frosts declaration it was
+ * not moved to `documents-unpublished/`: the client asked for it gone. The
+ * file remains recoverable from git history (commit dda057a) if it is ever
+ * needed again. Do not re-add it.
  *
  * The Frosts food-contact-material declaration has likewise been withdrawn, at
  * the client's request: it describes the older Frosts/PUG context rather than
@@ -55,16 +62,6 @@ export function formatBytes(bytes: number): string {
   }
   return `${Math.round(bytes / 1024)} KB`;
 }
-
-export const b2bManual: ClientDocument = {
-  id: "b2b-manual",
-  title: "Gung B2B Portal — User Manual (English)",
-  description:
-    "Step-by-step guide to the manufacturer's ordering portal: logging in, finding products, importing orders from Excel, checkout, and downloading product data.",
-  href: "/documents/morakniv-b2b-portal-user-manual-en.pdf",
-  bytes: 1_383_724,
-  scope: "corporate",
-};
 
 export const pressRelease: ClientDocument = {
   id: "press-release-2025",

@@ -1,8 +1,5 @@
-import {
-  COLOR_LABELS,
-  HANDLE_LABELS,
-  STIFFNESS_LABELS,
-} from "@/lib/products";
+import { HANDLE_LABELS, STIFFNESS_LABELS } from "@/lib/products";
+import { canPublishSpecs } from "@/lib/products/types";
 import type { Product } from "@/lib/products/types";
 
 type ProductSpecTableProps = {
@@ -10,28 +7,38 @@ type ProductSpecTableProps = {
 };
 
 /**
- * Specification table.
+ * Model-level specification table.
  *
- * Renders rows ONLY for a verified record. For anything still marked
- * `needs-verification` the caller shows the pending notice instead — this
- * component deliberately has no fallback that guesses or part-fills values.
+ * Every row here is a property of the MODEL, so nothing in this table changes
+ * when the visitor picks a different colour. Article number and colour are
+ * deliberately absent: they belong to the selected variant and are rendered by
+ * `ProductVariants`, which owns the selection. Keeping them out is what stops
+ * the two from disagreeing.
+ *
+ * Rows appear only when their field is present, so a catalogue-verified record
+ * shows exactly what the catalogue printed and nothing else. For anything still
+ * marked `needs-verification` the caller shows the pending notice instead.
  */
 export function ProductSpecTable({ product }: ProductSpecTableProps) {
-  if (product.dataStatus !== "verified") return null;
+  if (!canPublishSpecs(product)) return null;
 
   const rows: { label: string; value: string }[] = [];
 
-  if (product.articleNo) {
-    rows.push({ label: "Article number", value: product.articleNo });
+  rows.push({ label: "Model code", value: product.modelCode });
+
+  /* Labelled "Dimension", not "Blade length": the PUG catalogue prints this
+     value beside each model without stating what it measures. */
+  if (product.dimension) {
+    rows.push({ label: "Dimension", value: product.dimension.printed });
   }
-  if (product.modelCode) {
-    rows.push({ label: "Model code", value: product.modelCode });
+  if (product.blade?.stiffness) {
+    rows.push({
+      label: "Flex grade",
+      value: STIFFNESS_LABELS[product.blade.stiffness],
+    });
   }
   if (product.handle) {
     rows.push({ label: "Handle", value: HANDLE_LABELS[product.handle] });
-  }
-  if (product.color) {
-    rows.push({ label: "Colour", value: COLOR_LABELS[product.color] });
   }
   if (product.blade?.lengthInch || product.blade?.lengthMm) {
     const parts = [
@@ -40,15 +47,17 @@ export function ProductSpecTable({ product }: ProductSpecTableProps) {
     ].filter(Boolean);
     rows.push({ label: "Blade length", value: parts.join(" / ") });
   }
-  if (product.blade?.stiffness) {
-    rows.push({
-      label: "Blade stiffness",
-      value: STIFFNESS_LABELS[product.blade.stiffness],
-    });
-  }
   if (product.nsfApproved === true) {
     rows.push({ label: "NSF approved", value: "Yes" });
   }
+
+  rows.push({
+    label: "Article numbers",
+    value:
+      product.variants.length === 1
+        ? "1 colour"
+        : `${product.variants.length} colours`,
+  });
 
   if (rows.length === 0) return null;
 
@@ -56,7 +65,7 @@ export function ProductSpecTable({ product }: ProductSpecTableProps) {
     <div className="overflow-x-auto border border-line">
       <table className="w-full text-sm">
         <caption className="sr-only">
-          Specifications for {product.name}
+          Specifications for {product.name} {product.modelCode}
         </caption>
         <tbody>
           {rows.map((row) => (

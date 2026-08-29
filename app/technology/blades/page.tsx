@@ -5,6 +5,10 @@ import { PageHeader } from "@/components/content/PageHeader";
 import { Prose } from "@/components/content/Prose";
 import { SectionHeading } from "@/components/content/SectionHeading";
 import { SourceNote } from "@/components/content/SourceNote";
+import {
+  StiffnessGrades,
+  type StiffnessGrade,
+} from "@/components/content/StiffnessGrades";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
@@ -22,26 +26,34 @@ export const metadata: Metadata = {
   },
 };
 
-/* Catalogue p.18 — the four grades, described in the catalogue's own terms. */
-const flexGrades = [
+/*
+ * Catalogue p.18 — the four grades, described in the catalogue's own terms.
+ * `key` pulls the manufacturer's published mark for each grade from
+ * lib/images/technology.ts. The marks illustrate the grades for the range as
+ * a whole; they are not attached to any article number.
+ */
+const flexGrades: StiffnessGrade[] = [
   {
+    key: "stiff",
     term: "Stiff",
     description:
       "A strong blade for maximum control and durability. Excels in heavy-duty applications such as bone-in meat processing or slicing dense vegetables, offering precision and maximum durability.",
   },
   {
+    key: "medium-flex",
     term: "Medium Flex",
     description:
       "Versatile and suitable for a wide range of tasks, with good control and adaptability to various cutting needs.",
   },
   {
+    key: "flex",
     term: "Flex",
     description:
       "For precise tasks — well suited to filleting or precise deboning, with enhanced manoeuvrability that makes it easy to cut around bones and joints.",
   },
   {
+    key: "extra-flex",
     term: "Extra Flex",
-    meta: "Unique to Morakniv",
     description:
       "The highest level of flexibility, for fine filleting and maximum manoeuvrability. Designed to move smoothly around bones without damaging the meat, ensuring clean cuts and minimising waste.",
   },
@@ -109,11 +121,18 @@ export default function BladesPage() {
             lede="Stiffer blades excel in heavy-duty applications; flexible blades are ideal for delicate work where manoeuvrability around bones and joints is critical."
           />
 
-          <DefinitionGrid items={flexGrades} className="mt-12" />
+          <StiffnessGrades grades={flexGrades} className="mt-12" />
 
           <SourceNote className="mt-8">
-            Source: <em>Morakniv Professional Food Industry Knives 2026</em>,
-            pp.13 and 18.
+            The four grades are the manufacturer&rsquo;s own, supplied as
+            artwork with the range and reproduced here at page contrast.
+          </SourceNote>
+
+          <SourceNote className="mt-6">
+            Flex grade is published per article number. Where the catalogue
+            prints a grade against an article it appears on that
+            product&rsquo;s page and in the blade stiffness filter; where it
+            prints none, none is shown.
           </SourceNote>
         </Container>
       </Section>
@@ -130,8 +149,8 @@ export default function BladesPage() {
           <DefinitionGrid items={bladeShapes} className="mt-12" />
 
           <SourceNote className="mt-8">
-            Source: <em>Morakniv Professional Food Industry Knives 2026</em>,
-            pp.20&ndash;21.
+            Blade shape descriptions are published by the manufacturer for the
+            range as a whole, not per article number.
           </SourceNote>
         </Container>
       </Section>
@@ -174,8 +193,8 @@ export default function BladesPage() {
               </Prose>
 
               <SourceNote className="mt-8">
-                Source: <em>Morakniv Professional Food Industry Knives 2026</em>,
-                p.37.
+                General maintenance guidance from the manufacturer. Sharpening
+                steels are not part of the current range.
               </SourceNote>
 
               <div className="mt-9">

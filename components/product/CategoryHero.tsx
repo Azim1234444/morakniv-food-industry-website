@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { Container } from "@/components/layout/Container";
-import { visualSource, type CatalogueVisual } from "@/lib/images/catalogue";
+import type { CatalogueVisual } from "@/lib/images/catalogue";
 
 type CategoryHeroProps = {
   visual: CatalogueVisual;
@@ -44,9 +44,6 @@ export function CategoryHero({ visual }: CategoryHeroProps) {
 
           <figcaption className="mt-4 flex flex-col gap-1 text-xs leading-relaxed text-ink-subtle sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
             <span className="max-w-2xl">{visual.caption}</span>
-            <span className="shrink-0 tabular-nums">
-              {visualSource(visual)}
-            </span>
           </figcaption>
         </div>
       </Container>

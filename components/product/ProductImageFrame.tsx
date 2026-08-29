@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import type { ModelImage } from "@/lib/images/pug-models";
 import type { ProductImage } from "@/lib/products/types";
 
 type ProductImageFrameProps = {
@@ -9,20 +10,30 @@ type ProductImageFrameProps = {
   priority?: boolean;
   /** Larger placeholder treatment for the detail page. */
   size?: "card" | "detail";
+  /**
+   * Photograph of the model this article belongs to. Used only when the
+   * article has no photography of its own.
+   */
+  modelImage?: ModelImage;
 };
 
 /**
- * Renders real product imagery when it exists, and an honest placeholder when
- * it does not. No per-SKU product photography has been supplied, so the
- * placeholder states plainly that imagery is pending rather than showing a
- * generic stock knife.
+ * Renders product imagery when it exists, and an honest placeholder when it
+ * does not.
  *
- * The catalogue visuals in `lib/images/catalogue.ts` do NOT qualify. They are
- * section-level figures — one representative knife, a grid of blade or handle
- * types — carrying no article number, so they cannot be mapped to a specific
- * SKU and must stay on the category pages. Nothing may be routed from there
- * into this component; the pending state is the correct answer until real
- * per-article photography arrives.
+ * THREE LEVELS, IN ORDER OF PRECEDENCE.
+ *   1. `images` — photography of this exact article. None has been supplied.
+ *   2. `modelImage` — the catalogue photograph of the model. One model spans
+ *      up to five colour variants and every catalogue photograph shows the
+ *      black handle, so this is marked as representative wherever it is used
+ *      and is never described as a picture of a specific colour. The caller
+ *      renders that wording; this component only draws the frame.
+ *   3. The pending state, for the ten models the catalogue does not
+ *      photograph.
+ *
+ * The category visuals in `lib/images/catalogue.ts` do NOT qualify at any
+ * level. They are section-level figures carrying no model code and no article
+ * number, and must stay on the category pages.
  */
 export function ProductImageFrame({
   images,
@@ -30,6 +41,7 @@ export function ProductImageFrame({
   sizes,
   priority = false,
   size = "card",
+  modelImage,
 }: ProductImageFrameProps) {
   const primary = images.find((image) => image.isPrimary) ?? images[0];
 
@@ -44,6 +56,23 @@ export function ProductImageFrame({
           quality={85}
           sizes={sizes}
           className="object-contain"
+        />
+      </div>
+    );
+  }
+
+  if (modelImage) {
+    return (
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-alt">
+        <Image
+          src={modelImage.image}
+          alt={modelImage.alt}
+          fill
+          priority={priority}
+          quality={85}
+          placeholder="blur"
+          sizes={sizes}
+          className="object-contain p-3"
         />
       </div>
     );

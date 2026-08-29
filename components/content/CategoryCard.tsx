@@ -3,11 +3,21 @@ import Link from "next/link";
 type CategoryCardProps = {
   label: string;
   href: string;
-  /** Distinct article numbers counted in the 2026 catalogue. */
-  count: number;
+  /**
+   * Model codes in the category — the number of product pages behind this
+   * card. Leads, because that is what the link opens.
+   */
+  modelCount: number;
+  /** Article numbers across those models. Secondary, and labelled as such. */
+  articleCount: number;
 };
 
-export function CategoryCard({ label, href, count }: CategoryCardProps) {
+export function CategoryCard({
+  label,
+  href,
+  modelCount,
+  articleCount,
+}: CategoryCardProps) {
   return (
     <Link
       href={href}
@@ -29,12 +39,18 @@ export function CategoryCard({ label, href, count }: CategoryCardProps) {
         </svg>
       </span>
 
-      <span className="mt-10 flex items-baseline gap-1.5 text-ink-subtle">
-        <span className="text-sm font-medium tabular-nums text-ink-muted">
-          {count}
+      <span className="mt-10 flex flex-wrap items-baseline gap-x-1.5 text-ink-subtle">
+        <span className="text-sm font-medium text-ink-muted tabular-nums">
+          {modelCount}
         </span>
         <span className="text-xs">
-          article {count === 1 ? "number" : "numbers"}
+          {modelCount === 1 ? "model" : "models"}
+        </span>
+        <span aria-hidden="true" className="text-xs text-line-strong">
+          ·
+        </span>
+        <span className="text-xs tabular-nums">
+          {articleCount} article {articleCount === 1 ? "number" : "numbers"}
         </span>
       </span>
     </Link>

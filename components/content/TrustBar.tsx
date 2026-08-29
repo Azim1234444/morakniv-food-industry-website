@@ -1,6 +1,6 @@
 /**
- * Four figures, each a concrete, twice-stated fact from the supplied 2026
- * catalogue. Deliberately excluded:
+ * Four figures, each a concrete fact from the supplied PUG catalogue — the
+ * current source of truth for the range. Deliberately excluded:
  *
  *  - "NSF certified" — the catalogue asserts it (p.5, and per-SKU in every
  *    product table) but NO NSF certificate was supplied. A certification claim
@@ -23,12 +23,12 @@ const items = [
     label: "Knife-making in Mora, Sweden",
   },
   {
-    value: "58 HRC",
-    label: "Cryogenically hardened blades",
+    value: "57 HRC",
+    label: "Alleima® 10C28Mo2 blade steel",
   },
   {
-    value: "80–90%",
-    label: "Recycled Swedish stainless steel",
+    value: "5",
+    label: "Handle colours, including metal-detectable blue",
   },
   {
     value: "4",
@@ -57,7 +57,7 @@ export function TrustBar() {
 
       <p className="mt-4 text-xs leading-relaxed text-ink-subtle">
         Figures as published by the manufacturer in <em>Morakniv Professional
-        Food Industry Knives 2026</em>.
+        Food Industry Knives &mdash; PUG</em>.
       </p>
     </div>
   );

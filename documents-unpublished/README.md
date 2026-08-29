@@ -7,6 +7,11 @@ no route can reach it. Keep it that way: to withdraw a document, move the file
 here and remove its entry from `lib/documents.ts`. To publish one, move it to
 `public/documents/` and add it there.
 
+One document was withdrawn by deletion rather than by moving here: the Gung
+B2B portal user manual (`morakniv-b2b-portal-user-manual-en.pdf`), removed at
+the client's request when ordering moved to Akmal Station. It is recoverable
+from git history (commit `dda057a`) and is not to be re-added.
+
 | File | Why it is not published |
 | --- | --- |
 | `doc-food-contact-material-frosts.pdf` | Declaration of Compliance — Food contact material (19 February 2025). Withdrawn at the client's request: it describes the older Frosts/PUG context rather than the current range. It is not to be replaced by another declaration, and no PUG or handle content is to be written from it — the updated catalogue that work depends on has not been supplied yet. |

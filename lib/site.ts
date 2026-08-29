@@ -78,6 +78,13 @@ export const manufacturer = {
   email: "info@morakniv.se",
   orderEmail: "order@morakniv.se",
   website: "https://www.morakniv.se",
+  /**
+   * The manufacturer's own trade portal. Reference data only — it is
+   * deliberately not linked from anywhere on this site. Ordering in Malaysia
+   * runs through Akmal Station; pointing a Malaysian buyer at the
+   * manufacturer's ordering channel sends them away from the business whose
+   * site this is. Do not add a link to it.
+   */
   b2bPortal: "https://morakniv.gung.io",
 } as const;
 
@@ -110,6 +117,23 @@ export const distributor = {
     "Malaysia",
   ],
   enquiryEmail: "sales@moraknivfoodindustry.my",
+  /**
+   * The client's own Linktree — their external contact and ordering hub,
+   * confirmed in writing.
+   *
+   * WHAT THIS IS, AND WHAT IT IS NOT
+   * It is an off-site page the client controls and can change at any time.
+   * No copy on this site may describe, summarise or duplicate what sits inside
+   * it: no telephone number, no messaging app, no social handle and no
+   * ordering instructions may be inferred from it. Link to it, name it
+   * plainly, and let the client's own page speak for itself.
+   *
+   * The product enquiry route is deliberately unaffected. Individual product
+   * enquiries continue to run through /contact?product=<articleNo> and the
+   * Resend-backed form, which is the only path that carries an article number
+   * with it.
+   */
+  linktree: "https://linktr.ee/moraknivfoodindustrymy",
   /** Approved description of the relationship. Do not strengthen the wording. */
   role: "Distributor and importer of Morakniv Food Industry products in Malaysia.",
   /** Short attribution line used under the brand lockup. */

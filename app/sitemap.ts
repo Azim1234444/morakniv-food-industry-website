@@ -24,15 +24,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   const lastModified = new Date();
+  const allCategories = getCategories();
 
-  const contentRoutes = builtRoutes.map((route) => ({
-    url: new URL(route, siteUrl).toString(),
-    lastModified,
-    changeFrequency: "monthly" as const,
-    priority: route === "/" ? 1 : 0.7,
-  }));
+  /*
+   * The nav hierarchy carries the product categories as children of Products,
+   * so `builtRoutes` now contains them too. They are filtered out here and
+   * emitted below at their own priority, rather than published twice.
+   */
+  const categoryHrefs = new Set(
+    allCategories.map((category) => `/products/${category.slug}`),
+  );
 
-  const categoryRoutes = getCategories().map((category) => ({
+  const contentRoutes = builtRoutes
+    .filter((route) => !categoryHrefs.has(route))
+    .map((route) => ({
+      url: new URL(route, siteUrl).toString(),
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: route === "/" ? 1 : 0.7,
+    }));
+
+  const categoryRoutes = allCategories.map((category) => ({
     url: new URL(`/products/${category.slug}`, siteUrl).toString(),
     lastModified,
     changeFrequency: "monthly" as const,

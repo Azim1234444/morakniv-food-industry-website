@@ -171,7 +171,7 @@ export default function PrivacyPolicyPage() {
             <p>
               For questions concerning {manufacturer.legalName} in Sweden, who
               manufacture the products described on this site and who operate
-              the B2B ordering portal separately from this website, contact{" "}
+              their own systems separately from this website, contact{" "}
               <a href={`mailto:${manufacturer.email}`}>{manufacturer.email}</a>.
             </p>
           </Prose>

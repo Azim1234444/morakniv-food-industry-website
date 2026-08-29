@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { DefinitionGrid } from "@/components/content/DefinitionGrid";
-import { DownloadCard } from "@/components/content/DownloadCard";
+import { CTASection } from "@/components/content/CTASection";
 import { PageHeader } from "@/components/content/PageHeader";
 import { Prose } from "@/components/content/Prose";
 import { SectionHeading } from "@/components/content/SectionHeading";
@@ -9,206 +8,225 @@ import { SourceNote } from "@/components/content/SourceNote";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
-import { b2bManual } from "@/lib/documents";
-import { manufacturer } from "@/lib/site";
+import { distributor, manufacturer } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "How to Order",
   description:
-    "The Morakniv Gung B2B portal: logging in, finding products, importing orders from Excel, checkout, and downloading product data and price lists.",
+    "How to order Morakniv Food Industry knives in Malaysia: browse the range, note the article number, and order or enquire through Akmal Station, distributor and importer of Morakniv Food Industry products in Malaysia.",
   alternates: { canonical: "/how-to-order" },
   openGraph: {
     title: "How to Order — Morakniv Food Industry",
     description:
-      "How ordering works through the Morakniv Gung B2B portal, based on the manufacturer's user manual.",
+      "Order Morakniv Food Industry knives in Malaysia through Akmal Station. Browse the range, note the article number, and send an enquiry.",
     url: "/how-to-order",
   },
 };
 
-/* Steps below are taken from the Gung B2B portal user manual (English). */
-const steps = [
-  {
-    term: "1 — Log in",
-    description:
-      "Go to morakniv.gung.io. Choose Swedish or English using the flag icons; selecting English shows menus and product information in English. First-time users click 'Forgot password' to receive a link and create a password, then log in with their email address.",
-  },
-  {
-    term: "2 — Find products",
-    description:
-      "After logging in you land on a page listing the products in your shop. Search by article number or article name, filter by product type or product series, and use the product cards — which show article number, image, product name, your price and delivery date — to add items to the cart.",
-  },
-  {
-    term: "3 — Check the detail page",
-    description:
-      "Clicking a product image opens a detailed page showing dimensions, description and the recommended price. Products are ordered in even multiples according to the packaging quantity.",
-  },
-  {
-    term: "4 — Or import from Excel",
-    description:
-      "Choose 'Import order from Excel', select the 'Column format' upload format, download the example template, fill in SKU and quantity (EAN is not required) and upload the file. Note that items already in your cart are replaced by the uploaded items.",
-  },
-  {
-    term: "5 — Checkout",
-    description:
-      "Open the checkout from the icon in the upper right. Quantities can be adjusted and a desired delivery date set. A minimum order value must be met to check out.",
-  },
-  {
-    term: "6 — Delivery and reference",
-    description:
-      "Choose the delivery location from your saved addresses. A reference, PO or order number must be provided. A message to the order recipient can be added — for example delivery instructions.",
-  },
-  {
-    term: "7 — Submit",
-    description:
-      "The final step summarises the information going into the order. Click 'Submit Order' to complete; an order summary is sent to your email.",
-  },
-];
-
-const portalFeatures = [
-  {
-    term: "Product data export",
-    description:
-      "Download product images (IMG), product data sheets as PDF with one page per product, and full product information in Excel. Available in Swedish and English, and for some products Norwegian or German. A maximum of 20 items per download applies to images and product data sheets.",
-  },
-  {
-    term: "Price lists",
-    description:
-      "Current net prices and RRP can be downloaded as a price list, sent via a download link to your email.",
-  },
-  {
-    term: "My Pages",
-    description:
-      "Manage users, shipping addresses and contact details, and view orders and invoices. Tabs cover addresses, contacts, orders, invoices and the users linked to your order number.",
-  },
-  {
-    term: "Previous orders",
-    description:
-      "View and download all previous order confirmations in different formats.",
-  },
-  {
-    term: "Delivery overview",
-    description:
-      "See all upcoming deliveries and their status, including delivery tracking numbers and expected delivery dates.",
-  },
-  {
-    term: "Saved carts & favourites",
-    description:
-      "Save shopping carts as favourites to save time when reordering bestsellers, and mark individual knives as favourites to jump straight to their product pages.",
-  },
-];
-
+/**
+ * How to order — the Malaysian route, and only the Malaysian route.
+ *
+ * SCOPE RULE
+ * This site belongs to Akmal Station, which distributes and imports Morakniv
+ * Food Industry products in Malaysia. Ordering on this page therefore means
+ * ordering through Akmal Station. The manufacturer runs its own trade channels
+ * in Sweden; they are not described here and must not be re-added as an
+ * ordering option, because sending a Malaysian buyer to them is sending them
+ * away from the business whose site this is.
+ *
+ * The journey the page is built around is deliberately three moves long:
+ * browse the range, note the article number, get in touch. Anything that adds
+ * a fourth move is working against it.
+ *
+ * COPY RULE
+ * The Linktree is named as Akmal Station's own hub and nothing more. What sits
+ * inside it is the client's to publish and change; no route, handle, number or
+ * instruction may be inferred from it here. See `distributor.linktree`.
+ */
 export default function HowToOrderPage() {
   return (
     <>
       <PageHeader
         eyebrow="How to order"
-        title="Ordering through the Morakniv B2B portal."
-        lede="Morakniv AB operates a self-service ordering portal for trade customers. Logging in with your own credentials gives you your range, your prices and your order history."
+        title="Ordering in Malaysia."
+        lede={`Morakniv Food Industry knives are distributed and imported in Malaysia by ${distributor.legalName}. Three moves: find the knife, note its article number, send it to us with the quantity you need.`}
         crumbs={[{ label: "Home", href: "/" }, { label: "How to Order" }]}
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Button href={manufacturer.b2bPortal} className="w-full sm:w-auto">
-            Open the B2B portal
+          <Button href={distributor.linktree} className="w-full sm:w-auto">
+            Order / Enquire via Linktree
           </Button>
           <Button
-            href={b2bManual.href}
+            href="/products"
             variant="secondary"
             className="w-full sm:w-auto"
           >
-            Read the user manual (PDF)
+            Browse the range
           </Button>
         </div>
       </PageHeader>
 
       {/* ---------------------------------------------------------------
-          Access caveat — stated before the steps, not buried after them
-          --------------------------------------------------------------- */}
-      <Section size="sm">
-        <Container>
-          <SourceNote variant="caution">
-            <strong className="font-medium text-ink">
-              Before you begin.
-            </strong>{" "}
-            The portal described on this page is operated by Morakniv AB in
-            Sweden and requires an existing trade account. Account eligibility,
-            minimum order values, pricing, lead times and delivery terms are set
-            by the manufacturer and are not published on this site. In
-            Malaysia, Morakniv Food Industry products are distributed and
-            imported by Akmal Station — if you are unsure which route
-            applies to you, contact us before registering.
-          </SourceNote>
-        </Container>
-      </Section>
+          Who you are ordering from
 
-      {/* ---------------------------------------------------------------
-          The ordering flow
+          The two companies stay visibly separate here, as everywhere else on
+          the site: Morakniv AB makes the knives, Akmal Station brings them
+          into Malaysia. Neither sentence may be softened into implying they
+          are the same business, or that the relationship is anything stronger
+          than distribution and import.
           --------------------------------------------------------------- */}
       <Section divided>
         <Container>
-          <SectionHeading
-            eyebrow="The process"
-            title="From login to submitted order."
-            lede="Seven steps, as documented in the manufacturer's portal manual."
-          />
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-5">
+              <SectionHeading
+                eyebrow="Malaysia"
+                title={`Order through ${distributor.legalName}.`}
+                lede={`${distributor.role} Orders, quotations and product questions all come to us.`}
+              />
+            </div>
 
-          <DefinitionGrid items={steps} columns={1} className="mt-12" />
+            <div className="lg:col-span-7">
+              <Prose size="lg">
+                <p>
+                  Morakniv Food Industry knives are made by{" "}
+                  {manufacturer.legalName} in Mora, Sweden — a separate company.{" "}
+                  {distributor.legalName} is the business that distributes and
+                  imports them here, and is who you deal with for orders,
+                  quotations and product questions in Malaysia.
+                </p>
+                <p>
+                  Our Linktree is the hub for ordering and contact enquiries.
+                  It opens in a new tab and is kept up to date by us.
+                </p>
+              </Prose>
 
-          <SourceNote className="mt-8">
-            Source: <em>Morakniv User Manual — Gung B2B portal</em> (English),
-            Morakniv AB.
-          </SourceNote>
+              <div className="mt-8">
+                <Button href={distributor.linktree} size="lg">
+                  Order / Enquire via Linktree
+                </Button>
+              </div>
+
+              <SourceNote className="mt-8">
+                {distributor.legalName} — registration no.{" "}
+                {distributor.registrationNumber},{" "}
+                {distributor.addressCompact.join(", ")}.
+              </SourceNote>
+            </div>
+          </div>
         </Container>
       </Section>
 
       {/* ---------------------------------------------------------------
-          What else the portal does
+          Product enquiries — the article number is the whole trick
+
+          This is the route that carries a specific knife with it, so it points
+          at the enquiry form rather than the Linktree. `/contact?product=<no>`
+          is prefilled from every product page; the form is the only path that
+          arrives with an article number already attached.
           --------------------------------------------------------------- */}
       <Section tone="alt" divided>
         <Container>
-          <SectionHeading
-            eyebrow="Beyond ordering"
-            title="Product data, price lists and order history."
-          />
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-5">
+              <SectionHeading
+                eyebrow="Product enquiries"
+                title="Send the article number."
+                lede="Every knife in the range has its own article number. Quoting it is the difference between a quotation and a conversation about which knife you meant."
+              />
+            </div>
 
-          <DefinitionGrid items={portalFeatures} className="mt-12" />
+            <div className="lg:col-span-7">
+              <Prose size="lg">
+                <p>
+                  Each product page carries its article number and an enquiry
+                  link that brings the number along with it, so there is nothing
+                  to copy out or retype. If you already have a number from a previous order, it can go
+                  straight into the form.
+                </p>
+                <p>
+                  Tell us the quantity you need alongside it. Quantities are
+                  what let us come back with pricing and availability in one
+                  reply rather than three.
+                </p>
+              </Prose>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button href="/contact" className="w-full sm:w-auto">
+                  Send a product enquiry
+                </Button>
+                <Button
+                  href="/products"
+                  variant="secondary"
+                  className="w-full sm:w-auto"
+                >
+                  Find an article number
+                </Button>
+              </div>
+
+              <SourceNote className="mt-8">
+                Article numbers are taken from{" "}
+                <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>.
+                Prices, minimum quantities and lead times are not published on
+                this site and are confirmed on enquiry.
+              </SourceNote>
+            </div>
+          </div>
         </Container>
       </Section>
 
       {/* ---------------------------------------------------------------
-          Support
+          Browsing the range
           --------------------------------------------------------------- */}
       <Section tone="sunk" divided>
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <SectionHeading
-                eyebrow="Support"
-                title="Questions about the portal."
+                eyebrow="The range"
+                title="Start with the task, not the knife."
+                lede="The programme is organised by what the knife is for — boning, butchering, filleting, trimming, slicing — so the shortest way in is the job you need it to do."
               />
-
-              <Prose className="mt-6">
-                <p>
-                  The user manual lists a support address for portal and order
-                  enquiries, operated by the manufacturer.
-                </p>
-              </Prose>
-
-              <p className="mt-6">
-                <a
-                  href={`mailto:${manufacturer.orderEmail}`}
-                  className="text-lg font-medium text-ink underline underline-offset-4 transition-colors hover:text-brand"
-                >
-                  {manufacturer.orderEmail}
-                </a>
-              </p>
             </div>
 
             <div className="lg:col-span-7">
-              <DownloadCard document={b2bManual} />
+              <Prose size="lg">
+                <p>
+                  Each category page lists the knives in that group with their
+                  article numbers, blade lengths and handle types. From any
+                  product page, the enquiry link carries that knife&rsquo;s
+                  article number into the form for you.
+                </p>
+                <p>
+                  Not sure which model fits the line? Send us the cut, the
+                  volume and the conditions it works in, and we will come back
+                  with a recommendation.
+                </p>
+              </Prose>
+
+              <div className="mt-8">
+                <Button href="/products" size="lg">
+                  Browse all products
+                </Button>
+              </div>
             </div>
           </div>
         </Container>
       </Section>
+
+      {/* ---------------------------------------------------------------
+          Closing CTA — the Linktree leads, the form sits beside it
+          --------------------------------------------------------------- */}
+      <CTASection
+        eyebrow="Ready to order"
+        title="Order or enquire through Akmal Station."
+        lede="Our Linktree is the hub for ordering and contact enquiries. For a specific knife, the enquiry form is the more direct route — it carries the article number with it."
+        primary={{
+          label: "Order / Enquire via Linktree",
+          href: distributor.linktree,
+        }}
+        secondary={{ label: "Send a product enquiry", href: "/contact" }}
+      />
     </>
   );
 }

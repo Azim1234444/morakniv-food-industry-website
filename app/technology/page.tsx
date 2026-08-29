@@ -10,7 +10,7 @@ import { technologySections } from "@/lib/navigation";
 export const metadata: Metadata = {
   title: "Technology",
   description:
-    "Swedish stainless steel, four blade flexibility grades, cryogenic hardening to 58 HRC, handle variants and traceability — the engineering behind Morakniv food industry knives.",
+    "Swedish stainless steel, four blade flexibility grades, Alleima® 10C28Mo2 hardened to 57 HRC, handle variants and traceability — the engineering behind Morakniv food industry knives.",
   alternates: { canonical: "/technology" },
   openGraph: {
     title: "Technology — Morakniv Food Industry",

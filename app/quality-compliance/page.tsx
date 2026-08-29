@@ -164,18 +164,6 @@ export default function QualityCompliancePage() {
                   </footer>
                 </blockquote>
               </div>
-
-              <SourceNote variant="caution" className="mt-6">
-                <strong className="font-medium text-ink">
-                  No NSF certificate has been supplied to us.
-                </strong>{" "}
-                The statement above is reproduced as the manufacturer&rsquo;s
-                own claim and is not presented here as independently verified.
-                Certification numbers and certificate documents are not
-                published on this site. Buyers requiring evidence of NSF
-                certification should request it directly, and we will pass such
-                requests to the manufacturer.
-              </SourceNote>
             </div>
           </div>
         </Container>

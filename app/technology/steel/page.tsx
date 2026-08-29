@@ -12,27 +12,32 @@ import { Button } from "@/components/ui/Button";
 export const metadata: Metadata = {
   title: "The Steel",
   description:
-    "Swedish stainless steel from Alleima in Sandviken, made from 80–90% recycled content, with a micro grain structure and cryogenic hardening to 58 HRC.",
+    "Alleima® 10C28Mo2 Swedish stainless steel, used across the PUG range and hardened to 57 HRC for consistent cutting performance and long edge retention.",
   alternates: { canonical: "/technology/steel" },
   openGraph: {
     title: "The Steel — Morakniv Food Industry",
     description:
-      "Swedish stainless steel from Alleima, micro grain structure and cryogenic hardening to 58 HRC.",
+      "Alleima® 10C28Mo2 Swedish stainless steel, hardened to 57 HRC across the PUG range.",
     url: "/technology/steel",
   },
 };
 
 const processSteps = [
   {
-    term: "Cryogenic hardening",
-    meta: "58 HRC",
+    term: "Alleima® 10C28Mo2",
+    meta: "57 HRC",
     description:
-      "Each blade undergoes an industry-leading cryogenic hardening process, resulting in a Rockwell hardness of 58 HRC. This extends the time between sharpening and increases resistance to chipping and cracking, even when cutting harder materials like bone or frozen foods.",
+      "All blades in the PUG range are manufactured from Swedish stainless steel Alleima® 10C28Mo2, used across the entire range and hardened to 57 HRC.",
   },
   {
-    term: "Micro grain structure",
+    term: "Fine microstructure",
     description:
-      "The steel's micro grain structure allows for a finer, sharper edge with minimal tearing — suited to high-precision tasks, and important for delicate items such as deli meats and vegetables.",
+      "The steel combines high corrosion resistance with a fine microstructure, delivering consistent cutting performance, long edge retention and reduced risk of chipping or blade breakage.",
+  },
+  {
+    term: "Optimised for resharpening",
+    description:
+      "The steel is optimised for frequent resharpening, ensuring consistent performance in demanding professional food-processing environments.",
   },
   {
     term: "Computer-controlled grinding",
@@ -62,7 +67,7 @@ export default function SteelPage() {
       <PageHeader
         eyebrow="Technology"
         title="The Steel"
-        lede="Swedish stainless steel from Alleima in Sandviken has been part of Morakniv knives for over a century."
+        lede="All blades in the range are manufactured from Swedish stainless steel Alleima® 10C28Mo2, hardened to 57 HRC."
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Technology", href: "/technology" },
@@ -75,35 +80,27 @@ export default function SteelPage() {
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <SectionHeading
-                eyebrow="Sourcing"
-                title="80–90% recycled Swedish stainless steel."
+                eyebrow="The alloy"
+                title="Alleima® 10C28Mo2."
               />
             </div>
 
             <div className="lg:col-span-7">
               <Prose size="lg">
                 <p>
-                  Over time, the share of recycled content in the steel has
-                  steadily increased. Today the alloy is made from 80&ndash;90%
-                  recycled Swedish stainless steel.
+                  All blades are manufactured from Swedish stainless steel
+                  Alleima&reg; 10C28Mo2, now used across the entire range and
+                  hardened to 57&nbsp;HRC.
                 </p>
                 <p>
-                  In modern steel production it is rare for stainless steel to
-                  be made entirely from virgin material. Research shows that
-                  recycled steel retains the same high quality, and since iron
-                  atoms are eternal, the material can be reused indefinitely in
-                  new compositions. Increasing the recycling rate also reduces
-                  carbon dioxide emissions.
+                  The steel combines high corrosion resistance with a fine
+                  microstructure, delivering consistent cutting performance,
+                  long edge retention and reduced risk of chipping or blade
+                  breakage. It is optimised for frequent resharpening, ensuring
+                  consistent performance in demanding professional
+                  food-processing environments.
                 </p>
               </Prose>
-
-              <SourceNote variant="caution" className="mt-8">
-                The catalogue states the recycled share in two places and the
-                figures differ: p.8 refers to &ldquo;a recycled ratio exceeding
-                90%&rdquo;, while p.12 states &ldquo;80&ndash;90% recycled
-                Swedish stainless steel&rdquo;. The more conservative
-                p.12 figure is used throughout this site.
-              </SourceNote>
             </div>
           </div>
         </Container>
@@ -119,8 +116,8 @@ export default function SteelPage() {
           <DefinitionGrid items={processSteps} className="mt-12" />
 
           <SourceNote className="mt-8">
-            Source: <em>Morakniv Professional Food Industry Knives 2026</em>,
-            pp.12 and 18&ndash;19.
+            Steel grade and hardness: <em>Morakniv Professional Food Industry
+            Knives &mdash; PUG</em>, p.7.
           </SourceNote>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

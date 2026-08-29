@@ -30,11 +30,10 @@ export function VerificationNotice({
           {variant === "detail" && (
             <p className="mt-3 text-sm leading-relaxed text-ink-muted">
               Handle type, colour, blade length, blade stiffness and NSF status
-              are not published for this article yet. The 2026 catalogue lays
-              its assortment tables out visually, and those columns cannot be
-              read back reliably, so nothing is shown here rather than risk
-              publishing an incorrect specification. Verified data will be
-              loaded from the manufacturer&rsquo;s product data export.
+              are not published for this article yet. Nothing is shown here
+              rather than risk publishing an incorrect specification.
+              Confirmed data is loaded from the manufacturer&rsquo;s product
+              data export.
             </p>
           )}
         </div>
