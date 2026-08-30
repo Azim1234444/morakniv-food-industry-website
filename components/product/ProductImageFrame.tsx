@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import type { ModelImage } from "@/lib/images/pug-models";
+import type { ResolvedModelImage } from "@/lib/images/model-image";
 import type { ProductImage } from "@/lib/products/types";
 
 type ProductImageFrameProps = {
@@ -11,10 +11,12 @@ type ProductImageFrameProps = {
   /** Larger placeholder treatment for the detail page. */
   size?: "card" | "detail";
   /**
-   * Photograph of the model this article belongs to. Used only when the
-   * article has no photography of its own.
+   * The catalogue photograph representing this model — its own, or the one
+   * printed above its family's table. Used only when the article has no
+   * photography of its own. Already carries the alt text its provenance
+   * requires; see `lib/images/model-image.ts`.
    */
-  modelImage?: ModelImage;
+  modelImage?: ResolvedModelImage;
 };
 
 /**
@@ -23,13 +25,16 @@ type ProductImageFrameProps = {
  *
  * THREE LEVELS, IN ORDER OF PRECEDENCE.
  *   1. `images` — photography of this exact article. None has been supplied.
- *   2. `modelImage` — the catalogue photograph of the model. One model spans
- *      up to five colour variants and every catalogue photograph shows the
- *      black handle, so this is marked as representative wherever it is used
- *      and is never described as a picture of a specific colour. The caller
- *      renders that wording; this component only draws the frame.
- *   3. The pending state, for the ten models the catalogue does not
- *      photograph.
+ *   2. `modelImage` — the catalogue photograph representing the model, which
+ *      is either its own or the one printed above its family's shared table.
+ *      One model spans up to five colour variants and every catalogue
+ *      photograph shows the black handle, so this is never described as a
+ *      picture of a specific colour; a borrowed family photograph additionally
+ *      names the model it shows. Both disclosures ride in the alt text and are
+ *      printed by the caller — this component only draws the frame.
+ *   3. The pending state. Every current PUG model resolves at level 2, so
+ *      nothing reaches it today; it stays because coverage is a fact about
+ *      the data, not a guarantee of the component.
  *
  * The category visuals in `lib/images/catalogue.ts` do NOT qualify at any
  * level. They are section-level figures carrying no model code and no article

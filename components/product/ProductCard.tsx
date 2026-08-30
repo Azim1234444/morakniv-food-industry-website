@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { ColorSwatch } from "@/components/product/ColorSwatch";
 import { ProductImageFrame } from "@/components/product/ProductImageFrame";
-import { getModelImage } from "@/lib/images/pug-models";
+import { resolveModelImage } from "@/lib/images/model-image";
 import { STIFFNESS_LABELS } from "@/lib/products";
 import { categoryBySlug } from "@/lib/products/categories";
 import type { Product } from "@/lib/products/types";
@@ -29,7 +29,7 @@ export function ProductCard({
   matchedArticleNo,
 }: ProductCardProps) {
   const category = categoryBySlug.get(product.category);
-  const modelImage = getModelImage(product.modelCode);
+  const modelImage = resolveModelImage(product);
   const colors = [...new Set(product.variants.map((variant) => variant.color))];
 
   const href = matchedArticleNo
@@ -47,10 +47,16 @@ export function ProductCard({
         />
         {/* The catalogue photographs one knife per model, always in black.
             Saying so on the card stops the thumbnail from reading as a
-            picture of whichever colour the visitor filtered on. */}
+            picture of whichever colour the visitor filtered on.
+
+            Ten models show their family's photograph instead of their own,
+            and the badge says "family image" for those. A card has no room
+            for the full attribution, so the badge is a flag rather than the
+            disclosure — the alt text carries it here, and the model page
+            prints it in full under the frame. */}
         {modelImage && product.images.length === 0 && (
           <span className="absolute top-2 left-2 bg-surface/90 px-2 py-1 text-[0.625rem] tracking-wide text-ink-subtle uppercase">
-            Model image
+            {modelImage.family ? "Family image" : "Model image"}
           </span>
         )}
       </div>

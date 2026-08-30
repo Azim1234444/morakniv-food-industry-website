@@ -23,8 +23,10 @@ import markStiff from "@/public/images/technology/blade-stiffness-stiff.webp";
  * range as a whole. None of it is product photography.
  *
  *   - Nothing here may be attached to a `Product` record, and nothing here
- *     may be used to satisfy `ProductImageFrame`, which continues to show its
- *     "image pending" state until per-SKU photography is supplied.
+ *     may be used to satisfy `ProductImageFrame`. That frame is fed only from
+ *     `lib/images/model-image.ts`, which resolves a model to its own catalogue
+ *     photograph or to the one printed above its family's table. A reference
+ *     visual is neither: it pictures a property, not a knife.
  *   - No image in the delivery carries an article number in its filename or
  *     on the blade, so no image can be tied to a SKU. Alt text and captions
  *     therefore describe what a visual SHOWS, never which product it is.

@@ -5,7 +5,10 @@ import { Suspense } from "react";
 
 import { PageHeader } from "@/components/content/PageHeader";
 import { SourceNote } from "@/components/content/SourceNote";
-import { ModelImageNote } from "@/components/product/ModelImageNote";
+import {
+  ModelImageNote,
+  ModelImageNoteFallback,
+} from "@/components/product/ModelImageNote";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductImageFrame } from "@/components/product/ProductImageFrame";
 import { ProductSpecTable } from "@/components/product/ProductSpecTable";
@@ -16,7 +19,7 @@ import {
 import { VerificationNotice } from "@/components/product/VerificationNotice";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { getModelImage } from "@/lib/images/pug-models";
+import { resolveModelImage } from "@/lib/images/model-image";
 import {
   STIFFNESS_LABELS,
   canPublishSpecs,
@@ -99,8 +102,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const related = getRelatedProducts(product, 4);
   const siblings = getFamilySiblings(product);
   const showsSpecs = canPublishSpecs(product);
-  const modelImage = getModelImage(product.modelCode);
-  const hasModelImage = Boolean(modelImage) || product.images.length > 0;
+  const modelImage = resolveModelImage(product);
+  const hasImage = Boolean(modelImage) || product.images.length > 0;
 
   return (
     <>
@@ -156,20 +159,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 />
               </div>
 
-              {/* One photograph covers every colour of this model and always
-                  shows the black handle, so the caption tracks the selection. */}
+              {/* Two things the frame cannot say for itself: which knife is
+                  in the photograph when it is borrowed from a sibling flex
+                  grade, and which colour the selected article is. The caption
+                  states both, and tracks the selection for the second. */}
               <Suspense
                 fallback={
-                  <p className="mt-3 text-xs leading-relaxed text-ink-subtle">
-                    {hasModelImage
-                      ? "Representative image of this model, shown with the black handle."
-                      : "Photography for this model has not been supplied yet."}
-                  </p>
+                  <ModelImageNoteFallback
+                    product={product}
+                    hasImage={hasImage}
+                    family={modelImage?.family}
+                  />
                 }
               >
                 <ModelImageNote
                   product={product}
-                  hasModelImage={hasModelImage}
+                  hasImage={hasImage}
+                  family={modelImage?.family}
                 />
               </Suspense>
             </div>

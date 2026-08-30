@@ -44,17 +44,32 @@ import imgWSF8MF from "@/public/images/products/pug/wsf8mf-pug.webp";
  * margin and re-encoded as WebP. `page` is the catalogue page the photograph
  * was taken from.
  *
- * ATTRIBUTION IS BY BLADE ETCHING, NOT BY PAGE.
+ * THE REGISTRY IS KEYED BY BLADE ETCHING, NOT BY PAGE.
  * Six catalogue pages carry more than one model — a single blade geometry
  * offered in two or three flex grades. Each photograph on those pages shows
  * one physical knife, and that knife's blade is etched with its dimension,
  * its flex grade and its model code, legible at source resolution: page 8
  * reads `5"/133mm STIFF CB5S-PUG`, page 16 reads `6"/160mm FLEX SB6F-PUG`.
- * The photograph is therefore registered against the etched model only.
- * Attaching it to a sibling model would put a blade reading `STIFF` on a Flex
- * product, which is a false specification rather than a representative image.
- * Those siblings keep the pending-image state until their own photography is
- * supplied — ten models and thirty article numbers.
+ * `modelImages` therefore registers each photograph against the etched model
+ * and nothing else. Thirty-five of the forty-five models are keyed here.
+ *
+ * THE OTHER TEN BORROW THEIR FAMILY'S PHOTOGRAPH — SEE `familyImageDonors`.
+ * The catalogue prints one photograph above each shared family table, and the
+ * siblings under it carry the same product name, the same printed dimension
+ * and the same blade geometry; flex grade is the whole of the difference. So
+ * the photograph is the right picture of the family, and the only thing it
+ * gets wrong about a sibling is the word etched on the blade.
+ *
+ * That is a caption problem, not an image problem, and it is solved as one:
+ * a borrowed photograph is NEVER presented as a picture of the current model.
+ * `lib/images/model-image.ts` resolves the borrow and returns the attribution
+ * the UI must print — which model is photographed, in which flex grade, and
+ * which model the page is actually about. Rendering a borrowed image without
+ * that attribution would assert a false specification; rendering it with the
+ * attribution states exactly what the visitor is looking at.
+ *
+ * No borrowed image is a second file. The ten fall back onto the donor's
+ * existing asset, so the range still ships thirty-five photographs.
  *
  * WHAT THESE IMAGES ARE NOT.
  *   - They are not per-article photography. One model image covers every
@@ -255,10 +270,59 @@ const modelImages: Record<string, ModelImage> = {
   },
 };
 
+/**
+ * Models that borrow the photograph printed above their family's catalogue
+ * table, mapped to the sibling that photograph actually shows.
+ *
+ * A donor is valid only where the catalogue itself groups the two models: one
+ * photograph over one shared table, same product name, same printed dimension,
+ * same blade geometry, flex grade the only distinction. Every pair below is
+ * two models from a single catalogue page, and the page number in
+ * `modelImages` above is the check — a donor on a different page would be a
+ * different knife, not a different grade of the same one.
+ *
+ * Six families, ten borrowing models:
+ *   p.8  Boning Knife Curved 5" / 133 mm     — CB5S photographed
+ *   p.11 Boning Knife Curved 6" / 158 mm     — CB6S photographed
+ *   p.13 Boning Knife Wide Curved 6" / 159mm — WCB6MF photographed
+ *   p.15 Boning Knife Straight 5" / 135 mm   — SB5S photographed
+ *   p.16 Boning Knife Straight 6" / 160 mm   — SB6F photographed
+ *   p.34 Fillet Knife Straight 7" / 179 mm   — SF7F photographed
+ *
+ * Note p.13, p.16 and p.34: the photographed model is not always the stiffest
+ * grade. The catalogue photographs whichever knife it photographs, and this
+ * map records that rather than a rule about which grade wins.
+ */
+const familyImageDonors: Record<string, string> = {
+  "CB5MF-PUG": "CB5S-PUG",
+  "CB5F-PUG": "CB5S-PUG",
+  "CB6F-PUG": "CB6S-PUG",
+  "CB6XF-PUG": "CB6S-PUG",
+  "WCB6S-PUG": "WCB6MF-PUG",
+  "SB5MF-PUG": "SB5S-PUG",
+  "SB5F-PUG": "SB5S-PUG",
+  "SB6S-PUG": "SB6F-PUG",
+  "SB6MF-PUG": "SB6F-PUG",
+  "SF7MF-PUG": "SF7F-PUG",
+};
+
+/** The sibling whose photograph this model borrows, if it borrows one. */
+export function getFamilyImageDonor(
+  modelCode: string | undefined,
+): string | undefined {
+  return modelCode ? familyImageDonors[modelCode] : undefined;
+}
+
 /** The model photograph for a model code, when the catalogue supplies one. */
 export function getModelImage(modelCode: string | undefined): ModelImage | undefined {
   return modelCode ? modelImages[modelCode] : undefined;
 }
 
-/** Model codes that have a photograph. Used by counts and tests. */
-export const modelsWithImagery = Object.keys(modelImages);
+/** Model codes photographed by the catalogue — the distinct image files. */
+export const photographedModels = Object.keys(modelImages);
+
+/** Model codes that resolve to a photograph, whether their own or a sibling's. */
+export const modelsWithImagery = [
+  ...photographedModels,
+  ...Object.keys(familyImageDonors),
+];
