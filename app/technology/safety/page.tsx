@@ -99,8 +99,8 @@ export default function SafetyPage() {
               <Prose size="lg">
                 <p>
                   Traceability of the product is ensured according to Regulation
-                  (EC) No. 1935/2004, as stated in the declarations of
-                  compliance issued by Morakniv AB.
+                  (EC) No. 1935/2004, as stated in the declaration of compliance
+                  issued by Morakniv AB.
                 </p>
                 <p>
                   The catalogue lists full traceability and European sourced
@@ -110,8 +110,8 @@ export default function SafetyPage() {
               </Prose>
 
               <SourceNote className="mt-8">
-                Sources: Declaration of Compliance &mdash; Food contact material
-                (Morakniv AB, 19 February 2025) and{" "}
+                Sources: Declaration of Compliance issued by Morakniv AB (6 May
+                2025) and{" "}
                 <em>Morakniv Professional Food Industry Knives 2026</em>, pp.5
                 and 13.
               </SourceNote>

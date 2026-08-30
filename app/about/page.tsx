@@ -257,17 +257,6 @@ export default function AboutPage() {
                       </a>
                     </dd>
                   </div>
-                  <div>
-                    <dt className="text-ink-subtle">Orders</dt>
-                    <dd className="mt-1">
-                      <a
-                        href={`mailto:${manufacturer.orderEmail}`}
-                        className="text-ink-muted underline-offset-4 hover:text-brand hover:underline"
-                      >
-                        {manufacturer.orderEmail}
-                      </a>
-                    </dd>
-                  </div>
                 </dl>
 
                 <p className="mt-6 border-t border-line pt-6 text-xs leading-relaxed text-ink-subtle">
@@ -276,10 +265,17 @@ export default function AboutPage() {
                 </p>
               </div>
 
+              {/*
+                The manufacturer's ordering address is deliberately absent from
+                the details above. Ordering in Malaysia runs through Akmal
+                Station; publishing an order route to Sweden sends a buyer away
+                from the business whose site this is. Do not re-add it, and do
+                not add the manufacturer's trade portal.
+              */}
               <SourceNote className="mt-6">
                 Morakniv AB is a Swedish company and is not the operator of this
-                website. The Malaysian business is a separate company, set out
-                below.
+                website. Orders and quotations in Malaysia are handled by{" "}
+                {distributor.legalName}, set out below.
               </SourceNote>
             </div>
           </div>

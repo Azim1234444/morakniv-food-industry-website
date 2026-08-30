@@ -72,9 +72,8 @@ export function CategoryFigures({
             </div>
 
             <SourceNote className="mt-8">
-              These figures describe blade geometry across the range as a whole.
-              They are not keyed to article numbers, so none of them should be
-              read as a photograph of a specific article in the list above.
+              These figures describe blade geometry across the range as a whole
+              rather than any single model.
             </SourceNote>
           </div>
         </div>

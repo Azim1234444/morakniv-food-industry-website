@@ -110,10 +110,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
           {counts.total > 0 && (
             <SourceNote className="mt-10">
-              Model codes, flex grades, handle, printed dimensions and the
-              article number of each colour are taken from{" "}
-              <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>,{" "}
-              {category.cataloguePages}.
+              Source: <em>Morakniv Professional Food Industry Knives &mdash;
+              PUG</em>, {category.cataloguePages}.
             </SourceNote>
           )}
         </Container>

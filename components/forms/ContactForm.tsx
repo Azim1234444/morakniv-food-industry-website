@@ -257,7 +257,7 @@ function EnquiryForm({
           <FormField
             name="articleNo"
             label="Product article number"
-            hint="If you already know it — for example 11096."
+            hint="If you already know it — for example 14872."
             errors={errors.articleNo}
           >
             {(control) => (

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
      acknowledgement template for the same rule applied to email copy. */
   description:
     "Send a product, quotation, distribution or technical enquiry to Akmal Station, distributor and importer of Morakniv Food Industry products in Malaysia. Include an article number and we will pick it up from there.",
-  /* Canonical omits the query string, so /contact?product=11096 does not
+  /* Canonical omits the query string, so /contact?product=14872 does not
      compete with /contact in search results. */
   alternates: { canonical: "/contact" },
   openGraph: {
@@ -243,11 +243,6 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                     Food Industry products in Malaysia. The enquiry form
                     reaches the same team and is the fastest route.
                   </p>
-
-                  <p className="mt-3 text-xs leading-relaxed text-ink-subtle">
-                    A telephone number and business hours will be published
-                    here once confirmed.
-                  </p>
                 </div>
 
                 {/*
@@ -328,8 +323,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                   </dl>
 
                   <SourceNote className="mt-6">
-                    Source: <em>Morakniv Food Industry Catalogue 2026</em>,
-                    p.43, and the supplied compliance declarations.
+                    Source: <em>Morakniv Professional Food Industry Knives
+                    2026</em>, p.43.
                   </SourceNote>
                 </div>
 

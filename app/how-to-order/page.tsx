@@ -165,10 +165,9 @@ export default function HowToOrderPage() {
               </div>
 
               <SourceNote className="mt-8">
-                Article numbers are taken from{" "}
-                <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>.
-                Prices, minimum quantities and lead times are not published on
-                this site and are confirmed on enquiry.
+                Source: <em>Morakniv Professional Food Industry Knives &mdash;
+                PUG</em>. Prices, minimum quantities and lead times are not
+                published on this site and are confirmed on enquiry.
               </SourceNote>
             </div>
           </div>
@@ -192,10 +191,10 @@ export default function HowToOrderPage() {
             <div className="lg:col-span-7">
               <Prose size="lg">
                 <p>
-                  Each category page lists the knives in that group with their
-                  article numbers, blade lengths and handle types. From any
-                  product page, the enquiry link carries that knife&rsquo;s
-                  article number into the form for you.
+                  Browse the range by category, choose a model, then use the
+                  colour and article number shown on the product page when
+                  making an enquiry. From any product page, the enquiry link
+                  carries that article number into the form for you.
                 </p>
                 <p>
                   Not sure which model fits the line? Send us the cut, the

@@ -45,18 +45,17 @@ export function ProductCard({
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           modelImage={modelImage}
         />
-        {/* The catalogue photographs one knife per model, always in black.
-            Saying so on the card stops the thumbnail from reading as a
-            picture of whichever colour the visitor filtered on.
+        {/* Ten models show the photograph printed above their family's
+            catalogue table rather than one of their own. The badge flags those
+            and nothing else: a model photographed in its own right needs no
+            label, and a badge on every card was noise rather than information.
 
-            Ten models show their family's photograph instead of their own,
-            and the badge says "family image" for those. A card has no room
-            for the full attribution, so the badge is a flag rather than the
-            disclosure — the alt text carries it here, and the model page
-            prints it in full under the frame. */}
-        {modelImage && product.images.length === 0 && (
+            A card has no room for the full attribution, so this is a flag —
+            the alt text carries the detail here, and the model page prints the
+            short caption under the frame. */}
+        {modelImage?.family && product.images.length === 0 && (
           <span className="absolute top-2 left-2 bg-surface/90 px-2 py-1 text-[0.625rem] tracking-wide text-ink-subtle uppercase">
-            {modelImage.family ? "Family image" : "Model image"}
+            Representative image
           </span>
         )}
       </div>

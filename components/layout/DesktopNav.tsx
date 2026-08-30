@@ -193,9 +193,9 @@ export function DesktopNav() {
  *
  * A section index entry — "All Products", "News" — is the child whose href is
  * the parent's own route; it leads the panel above a hairline. More than six
- * remaining entries would make an absurdly tall column, so the eight product
- * categories split into two, filled column by column so the catalogue order
- * still reads top to bottom.
+ * remaining entries would make an absurdly tall column, so anything longer
+ * splits into two, filled column by column so the catalogue order still reads
+ * top to bottom. The six current product categories fit one column.
  */
 function Submenu({ item, pathname }: { item: NavItem; pathname: string }) {
   const children = item.children ?? [];

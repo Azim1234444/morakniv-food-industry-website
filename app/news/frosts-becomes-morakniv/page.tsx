@@ -180,11 +180,8 @@ export default function FrostsBecomesMoraknivPage() {
               </div>
 
               <SourceNote variant="attribution" className="mt-10 max-w-2xl">
-                This release was issued by Morakniv AB and is reproduced here
-                from the supplied PDF. The catalogue confirms the change takes
-                effect on 29 September 2025; the release itself states
-                &ldquo;29th of September&rdquo; without a year. No publication
-                date is printed on the document.
+                This release was issued by Morakniv AB and is reproduced here in
+                full. The change took effect on 29 September 2025.
               </SourceNote>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

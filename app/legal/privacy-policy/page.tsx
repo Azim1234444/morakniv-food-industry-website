@@ -10,32 +10,33 @@ import { Section } from "@/components/layout/Section";
 import { distributor, manufacturer } from "@/lib/site";
 
 /**
- * PLACEHOLDER — NOT APPROVED LEGAL COPY.
+ * Interim privacy notice.
  *
- * This page describes, factually and verifiably, what the website actually
- * does with the data someone types into the enquiry form. That much is drawn
- * from the code in `lib/actions/enquiry.ts` and `lib/email/`, so it is true
- * today and can be checked.
+ * WHAT THIS PAGE MAY SAY, AND WHAT IT MAY NOT.
+ * Every statement below describes what this website actually does with the
+ * data someone types into the enquiry form, and each one can be checked against
+ * `lib/actions/enquiry.ts`, `lib/validation/enquiry.ts` and `lib/email/`. The
+ * data controller is Akmal Station, taken from the client's own business
+ * details in `lib/site.ts`.
  *
- * Everything a real privacy notice additionally requires — the retention
- * period, the lawful basis, the complaints route, and the PDPA 2010 rights
- * wording itself — rests on decisions only the client and their legal adviser
- * can make. Those are marked as outstanding rather than filled in with
- * plausible-sounding text, because an invented privacy notice is worse than an
- * obviously unfinished one. The data controller is now identified: Akmal
- * Station, the Malaysian business that operates this website.
+ * The elements a complete privacy notice additionally requires — the retention
+ * period, the lawful basis relied upon, the statutory rights wording under the
+ * PDPA 2010, the complaints route and any processor disclosure — rest on
+ * decisions only the client and their legal adviser can make. They are OMITTED
+ * rather than invented, and they are not published as open questions either:
+ * a public page is not the place to address the client.
  *
- * LAUNCH BLOCKER: this page must be replaced with reviewed copy before
- * production, and the `robots` directive below removed at the same time.
+ * Do not add any of them without reviewed copy. The `robots` directive below
+ * stays until that copy exists.
  */
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "How enquiries submitted through this website are handled. This notice is a working draft pending legal review.",
+    "How enquiries submitted through the Morakniv Food Industry Malaysia website are handled: what the form collects, how it reaches us, and what this site does not do.",
   alternates: { canonical: "/legal/privacy-policy" },
-  /* Kept out of search results while the wording is unapproved. Still fully
-     reachable — the enquiry form links straight to it. */
+  /* Kept out of search results until the notice has been through legal review.
+     Still fully reachable — the enquiry form links straight to it. */
   robots: { index: false, follow: true },
 };
 
@@ -43,8 +44,7 @@ export const metadata: Metadata = {
 const collectedFields = [
   {
     term: "Who is responsible",
-    description:
-      `This website is operated by ${distributor.legalName} (registration no. ${distributor.registrationNumber}), ${distributor.address.join(", ")} — the distributor and importer of Morakniv Food Industry products in Malaysia. ${manufacturer.legalName} in Sweden is a separate company and does not operate this website.`,
+    description: `This website is operated by ${distributor.legalName} (registration no. ${distributor.registrationNumber}), ${distributor.address.join(", ")} — the distributor and importer of Morakniv Food Industry products in Malaysia. ${manufacturer.legalName} in Sweden is a separate company and does not operate this website.`,
   },
   {
     term: "Details you enter",
@@ -54,7 +54,7 @@ const collectedFields = [
   {
     term: "How it reaches us",
     description:
-      "The completed form is sent to our enquiry inbox as an email. This website has no customer database and stores no copy of your enquiry after the email has been sent.",
+      "The completed form is sent to our enquiry inbox as an email, transmitted through an external email delivery service. This website has no customer database and stores no copy of your enquiry after the email has been sent.",
   },
   {
     term: "Technical information",
@@ -65,29 +65,6 @@ const collectedFields = [
     term: "Cookies and analytics",
     description:
       "This website sets no cookies and runs no analytics, advertising or tracking scripts. There is no consent banner because there is nothing to consent to.",
-  },
-];
-
-const outstanding = [
-  {
-    term: "Retention period",
-    description:
-      "How long enquiry emails are kept in the business inbox before deletion, and who is responsible for that deletion.",
-  },
-  {
-    term: "Lawful basis and consent wording",
-    description:
-      "The basis relied upon under the Personal Data Protection Act 2010, and the exact consent language shown beside the form's checkbox, both to be confirmed by the client's legal adviser.",
-  },
-  {
-    term: "Access, correction and complaints",
-    description:
-      "The contact point for requesting access to or correction of personal data, the response process, and the escalation route for complaints.",
-  },
-  {
-    term: "Third-party processors",
-    description:
-      "Disclosure of the email delivery provider used to transmit enquiries, the jurisdictions data passes through, and any cross-border transfer notice required.",
   },
 ];
 
@@ -102,35 +79,14 @@ export default function PrivacyPolicyPage() {
       />
 
       {/* ---------------------------------------------------------------
-          The status of this page, stated first rather than in a footnote
-          --------------------------------------------------------------- */}
-      <Section size="sm">
-        <Container>
-          <SourceNote variant="caution">
-            <strong className="font-medium text-ink">
-              Working draft — pending legal review.
-            </strong>{" "}
-            This page is a structural placeholder. The description of what the
-            enquiry form does is accurate and reflects how the website is built.
-            The formal privacy notice — including the identity of the data
-            controller, retention periods and the rights available to you under
-            the Personal Data Protection Act 2010 — has not yet been drafted or
-            approved, and this page must not be relied upon as a complete legal
-            notice. It will be replaced with reviewed wording before the site
-            goes live.
-          </SourceNote>
-        </Container>
-      </Section>
-
-      {/* ---------------------------------------------------------------
-          What is factually true today
+          What the site actually does — every line verifiable in the source
           --------------------------------------------------------------- */}
       <Section divided size="sm">
         <Container>
           <SectionHeading
             eyebrow="What we collect"
-            title="What the enquiry form actually does."
-            lede="The following describes the current behaviour of this website and can be verified against its source code."
+            title="What the enquiry form does."
+            lede="The following describes how this website handles the details you submit."
           />
 
           <DefinitionGrid items={collectedFields} columns={1} className="mt-12" />
@@ -138,24 +94,9 @@ export default function PrivacyPolicyPage() {
       </Section>
 
       {/* ---------------------------------------------------------------
-          What is deliberately missing
+          Where to ask
           --------------------------------------------------------------- */}
-      <Section tone="alt" divided>
-        <Container>
-          <SectionHeading
-            eyebrow="Still to be confirmed"
-            title="What this notice does not yet cover."
-            lede="These sections require information and decisions from the client and their legal adviser. They have been left blank rather than filled with placeholder legal text."
-          />
-
-          <DefinitionGrid items={outstanding} className="mt-12" />
-        </Container>
-      </Section>
-
-      {/* ---------------------------------------------------------------
-          Where to ask in the meantime
-          --------------------------------------------------------------- */}
-      <Section divided size="sm">
+      <Section tone="alt" divided size="sm">
         <Container width="narrow">
           <SectionHeading
             eyebrow="Questions"
@@ -177,8 +118,8 @@ export default function PrivacyPolicyPage() {
           </Prose>
 
           <SourceNote className="mt-8">
-            Last reviewed: not yet reviewed. This page has no approved
-            publication date.
+            This notice describes current practice and will be updated as
+            operational details are confirmed.
           </SourceNote>
         </Container>
       </Section>

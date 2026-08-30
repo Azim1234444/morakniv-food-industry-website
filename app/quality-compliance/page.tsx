@@ -24,31 +24,25 @@ export const metadata: Metadata = {
   },
 };
 
-/* Every regulation below is named on the declarations we hold. */
+/* Every regulation below is named on the declaration published on this page. */
 const regulations = [
   {
     term: "Regulation (EC) No. 1935/2004",
     meta: "Food contact",
     description:
-      "Of the European Parliament and of the Council of 27 October 2004, on materials and articles intended to come into contact with food. Cited on both declarations, which also confirm that traceability is ensured according to this regulation.",
+      "Of the European Parliament and of the Council of 27 October 2004, on materials and articles intended to come into contact with food. The declaration also confirms that traceability is ensured according to this regulation.",
   },
   {
     term: "Regulation (EU) No. 10/2011",
     meta: "Plastics",
     description:
-      "Commission Regulation of 14 January 2011 on plastic materials and articles intended to come into contact with food, as amended. Cited on the declaration covering knife handle materials.",
+      "Commission Regulation of 14 January 2011 on plastic materials and articles intended to come into contact with food, as amended.",
   },
   {
     term: "Regulation (EC) No. 2023/2006",
     meta: "GMP",
     description:
-      "Commission Regulation on good manufacturing practice for materials and articles intended to come into contact with food. Both declarations state that manufacture is carried out in accordance with its relevant requirements.",
-  },
-  {
-    term: "Metals and alloys in food contact materials",
-    meta: "Council of Europe",
-    description:
-      "1st edition, issued by the European Directorate for the Quality of Medicines and Healthcare. Cited on the declaration covering food industry knives with stainless steel blades.",
+      "Commission Regulation on good manufacturing practice for materials and articles intended to come into contact with food. The declaration states that manufacture is carried out in accordance with its relevant requirements.",
   },
 ];
 
@@ -58,7 +52,7 @@ export default function QualityCompliancePage() {
       <PageHeader
         eyebrow="Quality & Compliance"
         title="Documented at the source."
-        lede="Morakniv AB issues declarations of compliance for the materials in its knives that come into contact with food. What is published below is reproduced exactly as supplied by the manufacturer."
+        lede="Morakniv AB issues declarations of compliance for the materials in its knives that come into contact with food. The declaration published here is available to download in full."
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Quality & Compliance" },
@@ -66,7 +60,12 @@ export default function QualityCompliancePage() {
       />
 
       {/* ---------------------------------------------------------------
-          What the declarations cover
+          What the published declaration covers.
+
+          Only the declaration in `complianceDocuments` may be described here.
+          The Frosts food-contact declaration was withdrawn at the client's
+          request; no copy on this page may be written from it, and it must not
+          be cited by date as though a reader could obtain it.
           --------------------------------------------------------------- */}
       <Section>
         <Container>
@@ -81,29 +80,21 @@ export default function QualityCompliancePage() {
             <div className="lg:col-span-7">
               <Prose size="lg">
                 <p>
-                  The declarations are issued by Morakniv AB, Bjäkenbacken 4,
+                  The declaration is issued by Morakniv AB, Bjäkenbacken 4,
                   SE-792 95 Mora, Sweden, as manufacturer.
                 </p>
                 <p>
-                  For the food industry knives, the declaration states that the
-                  food contact material is the stainless steel blade, and that
-                  the type of food to come into contact with the material is all
-                  food types. The knives are described as having stainless steel
-                  blades with handles in polypropylene, polyamides and
-                  thermoplastic elastomers.
-                </p>
-                <p>
-                  A separate declaration covers the knife handle materials
-                  themselves, listing the specific polypropylene and compound
-                  grades used.
+                  It covers the materials used in the knife handles, listing the
+                  specific polypropylene and compound grades, and declares them
+                  against the European regulations for materials intended to
+                  come into contact with food.
                 </p>
               </Prose>
 
               <SourceNote className="mt-8">
-                Sources: Declaration of Compliance &mdash; Food contact material
-                (19 February 2025) and Declaration of Compliance for materials
-                and articles intended to come into contact with food (6 May
-                2025), both issued by Morakniv AB.
+                Source: Declaration of Compliance for materials and articles
+                intended to come into contact with food (6 May 2025), issued by
+                Morakniv AB.
               </SourceNote>
             </div>
           </div>
@@ -117,13 +108,13 @@ export default function QualityCompliancePage() {
         <Container>
           <SectionHeading
             eyebrow="Regulations cited"
-            title="The standards named on the declarations."
+            title="The standards named on the declaration."
           />
 
           <DefinitionGrid items={regulations} className="mt-12" />
 
           <SourceNote className="mt-8">
-            Each declaration notes that it is valid for the product delivered as
+            The declaration notes that it is valid for the product delivered as
             specified, and that because underlying legislation and products can
             change, customers are recommended to verify the regulatory status
             periodically.
@@ -140,7 +131,7 @@ export default function QualityCompliancePage() {
             <div className="lg:col-span-5">
               <SectionHeading
                 eyebrow="NSF"
-                title="A manufacturer statement, not a certificate we hold."
+                title="What Morakniv AB states about NSF."
               />
             </div>
 
@@ -159,8 +150,7 @@ export default function QualityCompliancePage() {
                   </p>
                   <footer className="mt-4 text-sm text-ink-subtle not-italic">
                     &mdash; <em>Morakniv Professional Food Industry Knives
-                    2026</em>, p.5. The catalogue also marks NSF approval
-                    per article number in its product tables.
+                    2026</em>, p.5.
                   </footer>
                 </blockquote>
               </div>
@@ -177,7 +167,7 @@ export default function QualityCompliancePage() {
           <SectionHeading
             eyebrow="Documents"
             title="Declaration of compliance."
-            lede="Covers the food industry range and is available as PDF."
+            lede="Covers the polypropylene and compound materials used in the knife handles. Available as PDF."
           />
 
           {/*
@@ -193,19 +183,12 @@ export default function QualityCompliancePage() {
           </div>
 
           {/*
-            A further declaration supplied with the client materials covers the
-            Ashwood Outdoor collection. It is not part of the food industry
-            range, and this page has no "other product lines" context to hold
-            it, so it is not published here — it is available from us on
-            request instead.
+            Declarations covering other Morakniv product lines are deliberately
+            not described here. They are outside the food industry range, this
+            page has no context that makes their scope unambiguous, and naming
+            an unrelated collection on a compliance page only raises a question
+            a food-industry buyer did not ask. Do not re-add that note.
           */}
-          <SourceNote variant="caution" className="mt-8">
-            A further declaration supplied with the client materials covers the
-            Ashwood Outdoor collection — outdoor knives with coated stainless
-            blades. It is <strong className="font-medium text-ink">not</strong>{" "}
-            part of the food industry range and is therefore not published on
-            this site. Contact us if you need it.
-          </SourceNote>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button href="/how-to-order" className="w-full sm:w-auto">

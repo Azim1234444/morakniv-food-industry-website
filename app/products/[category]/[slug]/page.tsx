@@ -252,10 +252,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <SourceNote className="mt-12">
-            Model code, product name, flex grade, handle, printed dimension and
-            the article number of each colour from{" "}
-            <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>, p.
-            {product.source?.page}.
+            Source: <em>Morakniv Professional Food Industry Knives &mdash;
+            PUG</em>, p.{product.source?.page}.
           </SourceNote>
         </Container>
       </Section>

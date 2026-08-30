@@ -24,17 +24,23 @@ type ModelImageNoteProps = {
  *
  *   WHICH KNIFE IS IN THE FRAME. Ten models borrow the photograph printed
  *   above their family's catalogue table, which shows a sibling in another
- *   flex grade. The caption then names both models and both grades outright.
- *   The two knives share a product name, a printed dimension and a blade
- *   geometry, so the photograph is a true picture of the family — but the
- *   blade in it is etched with the sibling's grade, and saying so is what
- *   keeps a correct family image from reading as a false spec.
+ *   flex grade. The two knives share a product name, a printed dimension and a
+ *   blade geometry, so the photograph is a true picture of the family — but
+ *   the blade in it is etched with the sibling's model code, so the caption
+ *   names it as a family image and names the model pictured.
  *
  *   WHICH COLOUR IT IS. Every catalogue photograph shows a BLACK handle, and
  *   one photograph covers all of a model's colours. When the visitor has
  *   selected another colour the page says so outright — otherwise the image
  *   reads as a picture of that colour, which would be a false claim about a
  *   product.
+ *
+ * WORDING RULE — this is customer copy, not a provenance record.
+ * Both disclosures are kept to one short clause each. The full attribution,
+ * including flex grades and the shared blade geometry, lives in the alt text
+ * built by `lib/images/model-image.ts`, where it serves accessibility without
+ * putting a data-provenance footnote under the hero image. Do not expand these
+ * sentences back into an explanation of how the image library resolves.
  *
  * It reads the selection from the URL rather than from shared state, which is
  * how it stays in step with the variant table in the other column.
@@ -80,7 +86,6 @@ export function ModelImageNoteFallback({
 }
 
 function ImageNote({
-  product,
   hasImage,
   family,
   selected,
@@ -88,7 +93,7 @@ function ImageNote({
   if (!hasImage) {
     return (
       <p className="mt-3 text-xs leading-relaxed text-ink-subtle">
-        Photography for this model has not been supplied yet.
+        No photograph is available for this model.
       </p>
     );
   }
@@ -97,27 +102,20 @@ function ImageNote({
     <p className="mt-3 text-xs leading-relaxed text-ink-subtle">
       {family ? (
         <>
-          Catalogue photograph for {family.familyName}
-          {family.dimension ? ` ${family.dimension}` : ""}, shown with the black
-          handle. The knife pictured is{" "}
-          <Code>{family.photographedModelCode}</Code>
-          {family.photographedFlex ? ` (${family.photographedFlex})` : ""}; this
-          page is <Code>{family.currentModelCode}</Code>
-          {family.currentFlex ? ` (${family.currentFlex})` : ""}. The two share
-          the same blade geometry and differ in flex grade.
+          Representative family image, shown with the black handle. Pictured:{" "}
+          <Code>{family.photographedModelCode}</Code>.
         </>
       ) : (
-        <>
-          Catalogue photograph of <Code>{product.modelCode}</Code>, shown with
-          the black handle.
-        </>
+        <>Model shown with the black handle.</>
       )}
       {selected.color !== "black" && (
         <>
           {" "}
-          Article{" "}
-          <span className="font-mono tabular-nums">{selected.articleNo}</span> is
-          supplied in {COLOR_LABELS[selected.color].toLowerCase()}.
+          Selected article{" "}
+          <span className="font-mono tabular-nums">
+            {selected.articleNo}
+          </span>{" "}
+          &mdash; {COLOR_LABELS[selected.color]}.
         </>
       )}
     </p>

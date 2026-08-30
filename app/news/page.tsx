@@ -84,9 +84,8 @@ export default function NewsPage() {
           </ul>
 
           <SourceNote className="mt-10">
-            The supplied press release carries no printed publication date, so
-            only the year is shown. Where a release states the date a change
-            takes effect, that date appears in the item itself.
+            Where a release states the date a change takes effect, that date
+            appears in the item itself.
           </SourceNote>
         </Container>
       </Section>

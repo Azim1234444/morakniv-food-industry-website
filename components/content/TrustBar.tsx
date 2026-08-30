@@ -56,8 +56,7 @@ export function TrustBar() {
       </dl>
 
       <p className="mt-4 text-xs leading-relaxed text-ink-subtle">
-        Figures as published by the manufacturer in <em>Morakniv Professional
-        Food Industry Knives &mdash; PUG</em>.
+        Source: <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>.
       </p>
     </div>
   );

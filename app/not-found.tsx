@@ -25,8 +25,8 @@ export default function NotFound() {
         </h1>
 
         <p className="mt-5 text-base leading-relaxed text-ink-muted md:text-lg">
-          The address may be mistyped, or the section may not be published yet
-          — this site is being rolled out in stages.
+          The address may be mistyped, or the page may have moved. Browse the
+          current product range, or return to the homepage.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">

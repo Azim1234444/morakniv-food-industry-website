@@ -68,7 +68,10 @@ export function SiteFooter() {
           <nav aria-label="Products" className="lg:col-span-3">
             <h2 className="label-eyebrow text-ink-subtle">Products</h2>
             <ul className="mt-4 space-y-2.5">
-              {productCategories.slice(0, 5).map((category) => (
+              {/* All six current categories. Never truncate this list — a
+                  category that is missing here is a category no visitor can
+                  reach from the footer. */}
+              {productCategories.map((category) => (
                 <li key={category.href}>
                   <Link
                     href={category.href}

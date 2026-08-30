@@ -124,15 +124,9 @@ export default function BladesPage() {
           <StiffnessGrades grades={flexGrades} className="mt-12" />
 
           <SourceNote className="mt-8">
-            The four grades are the manufacturer&rsquo;s own, supplied as
-            artwork with the range and reproduced here at page contrast.
-          </SourceNote>
-
-          <SourceNote className="mt-6">
-            Flex grade is published per article number. Where the catalogue
-            prints a grade against an article it appears on that
-            product&rsquo;s page and in the blade stiffness filter; where it
-            prints none, none is shown.
+            Each model has one flex grade, shown on its product page and
+            available as a filter. The grade marks are published by the
+            manufacturer.
           </SourceNote>
         </Container>
       </Section>
@@ -150,7 +144,7 @@ export default function BladesPage() {
 
           <SourceNote className="mt-8">
             Blade shape descriptions are published by the manufacturer for the
-            range as a whole, not per article number.
+            range as a whole.
           </SourceNote>
         </Container>
       </Section>

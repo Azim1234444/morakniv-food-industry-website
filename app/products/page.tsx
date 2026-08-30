@@ -122,9 +122,8 @@ export default function ProductsPage() {
           </div>
 
           <SourceNote className="mt-10">
-            Model codes, product names, flex grades, handle, printed dimensions
-            and article numbers are taken from{" "}
-            <em>Morakniv Professional Food Industry Knives &mdash; PUG</em>.
+            Source: <em>Morakniv Professional Food Industry Knives &mdash;
+            PUG</em>.
           </SourceNote>
         </Container>
       </Section>

@@ -35,10 +35,11 @@ import workerImage from "@/public/images/food-industry-worker.jpg";
  * SOURCING RULE
  * Product claims trace to the PUG catalogue, which is the current range and
  * the source of truth for it. Company, manufacturing and compliance claims
- * trace to the supplied 2026 catalogue, the press release or the three
- * compliance declarations; those citations are left as they are because the
+ * trace to the 2026 catalogue, the press release or the one published
+ * compliance declaration; those citations are left as they are because the
  * PUG catalogue does not carry the same material, and re-attributing them to
- * it would invent provenance.
+ * it would invent provenance. The Frosts food-contact declaration was
+ * withdrawn — nothing on this page may be written from it.
  *
  * The Malaysian business — Akmal Station, distributor and importer of Morakniv
  * Food Industry products here — is named from the client's own business
@@ -187,9 +188,9 @@ export default function Home() {
               lede={
                 <>
                   <p>
-                    A key part of our success lies in working closely with
-                    professionals. By listening to their needs and insights, we
-                    gain new ideas that we transform into market-leading knives.
+                    Morakniv develops the range in close dialogue with the
+                    professionals who use it, taking their needs and insights
+                    into the design of new knives.
                   </p>
                   <p className="mt-4">
                     That work produced the PUG handle &mdash; Performance
@@ -255,7 +256,7 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Quality &amp; compliance"
                 title="Documented at the source."
-                lede="Morakniv AB issues declarations of compliance for the materials that come into contact with food. The declarations below are published as supplied by the manufacturer."
+                lede="Morakniv AB issues declarations of compliance for the materials in its knives that come into contact with food."
               />
 
               <div className="mt-9">
@@ -300,8 +301,8 @@ export default function Home() {
                     NSF certification
                   </dt>
                   <dd className="mt-2.5 text-sm leading-relaxed text-ink-muted">
-                    Certification documents are not published here. Ask us and we
-                    will supply what applies to the articles you need.
+                    Stated by Morakniv AB in its product catalogue. No
+                    certification document is published on this site.
                   </dd>
                 </div>
               </dl>

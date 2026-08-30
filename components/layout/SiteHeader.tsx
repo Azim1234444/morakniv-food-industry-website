@@ -33,9 +33,19 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <DesktopNav />
 
-          {/* Paired with DesktopNav — both appear at `xl`, not before. */}
-          <div className="hidden xl:block xl:pl-3 2xl:pl-4">
-            <Button href="/contact" size="sm">
+          {/*
+            Paired with DesktopNav — both appear at `xl`, not before. The
+            wrapper refuses to shrink, so the flex row takes the width it needs
+            out of the nav's slack rather than off the label, and the button
+            holds the label on one line. `px-5` over the `sm` size's `px-4`
+            keeps a longer-than-average label off the edges.
+          */}
+          <div className="hidden shrink-0 xl:block xl:pl-3 2xl:pl-4">
+            <Button
+              href="/contact"
+              size="sm"
+              className="px-5 whitespace-nowrap"
+            >
               Request a quotation
             </Button>
           </div>

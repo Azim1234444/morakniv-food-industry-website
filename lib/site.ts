@@ -76,6 +76,13 @@ export const manufacturer = {
   visitingAddress: ["Bjäkenbacken 4", "SE-792 95 Mora", "Sweden"],
   telephone: "+46 250-59 50 00",
   email: "info@morakniv.se",
+  /**
+   * The manufacturer's own order address. Reference data only — it is
+   * deliberately not published anywhere on this site, for the same reason as
+   * `b2bPortal` below: ordering in Malaysia runs through Akmal Station, and a
+   * published order route to Sweden sends a buyer away from the business whose
+   * site this is. Do not surface it in any page.
+   */
   orderEmail: "order@morakniv.se",
   website: "https://www.morakniv.se",
   /**
