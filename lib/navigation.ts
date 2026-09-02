@@ -129,7 +129,15 @@ export const primaryNav: NavItem[] = [
     children: technologyChildren,
   },
   { label: "Quality & Compliance", href: "/quality-compliance", built: true },
-  { label: "How to Order", href: "/how-to-order", built: true },
+  {
+    label: "How to Order",
+    href: "/how-to-order",
+    built: true,
+    children: [
+      { label: "How to Order", href: "/how-to-order", exact: true },
+      { label: "Dealers", href: "/dealers" },
+    ],
+  },
   { label: "News", href: "/news", built: true, children: newsChildren },
   { label: "Contact", href: "/contact", built: true },
 ];

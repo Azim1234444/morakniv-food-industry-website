@@ -1,5 +1,3 @@
-import type { EnquiryState } from "@/lib/validation/enquiry";
-
 /**
  * Submission feedback banner.
  *
@@ -8,7 +6,12 @@ import type { EnquiryState } from "@/lib/validation/enquiry";
  * about to correct. Errors use `alert` (assertive) because the form is now
  * blocking them; success uses `status` (polite).
  */
-export function FormStatus({ state }: { state: EnquiryState }) {
+type FormStatusState = {
+  status: "idle" | "success" | "error";
+  message: string;
+};
+
+export function FormStatus({ state }: { state: FormStatusState }) {
   if (state.status === "idle" || !state.message) return null;
 
   const isSuccess = state.status === "success";

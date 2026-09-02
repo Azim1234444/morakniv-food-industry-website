@@ -20,7 +20,7 @@ import { isRouteActive, primaryNav } from "@/lib/navigation";
  * longer fits at the 1024px `lg` stop, so the horizontal bar starts at `xl` and
  * everything below it uses the mobile panel — which must stay in step, see
  * `MobileNav`. Item padding is a notch tighter than the icon-free bar needed,
- * buying back the width the three submenu chevrons cost; it opens up again at
+ * buying back the width the submenu chevrons cost; it opens up again at
  * `2xl`, where there is room.
  *
  * DOM ids for the submenus and their triggers: `MobileNav` sits in the tree at

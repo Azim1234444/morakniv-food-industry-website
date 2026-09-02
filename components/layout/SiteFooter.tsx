@@ -7,6 +7,13 @@ import { distributor, manufacturer, siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const companyLinks = primaryNav
+    .filter((item) => item.href !== "/")
+    .flatMap((item) =>
+      item.href === "/how-to-order"
+        ? [item, { label: "Dealers", href: "/dealers" }]
+        : [item],
+    );
 
   return (
     <footer className="border-t border-line bg-surface-alt">
@@ -93,26 +100,24 @@ export function SiteFooter() {
           </nav>
 
           {/*
-            Company — the primary nav minus Home, so the footer can never
-            advertise a route the header does not. With Resources gone this
+            Company — the primary nav minus Home, plus the Dealers child that
+            sits under How to Order in the header. With Resources gone this
             column carries the full set, and takes the width the old Resources
             column used to occupy rather than leaving a hole in the grid.
           */}
           <nav aria-label="Company" className="lg:col-span-3">
             <h2 className="label-eyebrow text-ink-subtle">Company</h2>
             <ul className="mt-4 space-y-2.5">
-              {primaryNav
-                .filter((item) => item.href !== "/")
-                .map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-ink-muted underline-offset-4 transition-colors hover:text-brand hover:underline"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
+              {companyLinks.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-ink-muted underline-offset-4 transition-colors hover:text-brand hover:underline"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
 
